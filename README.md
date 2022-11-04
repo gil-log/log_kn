@@ -1,2 +1,2 @@
 # log_kn
-KN Log
+KN.log
