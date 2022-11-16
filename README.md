@@ -331,7 +331,7 @@ _이거아님_
 
 - [MyBatis의 Risk와 JPA의 필요성](#MyBatis의-Risk와-JPA의-필요성)
 - [Builder 패턴 도입](#Builder-패턴-도입)
-- [주니어의 코드리뷰는 외않대?](#주니어의-코드리뷰는-외않대?)
+- [주니어의 코드리뷰는 외않대](#주니어의-코드리뷰는-외않대)
 ---
 
 ---
@@ -710,7 +710,7 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
 ---
 
 
-## 주니어의 코드리뷰는 외않대?
+## 주니어의 코드리뷰는 외않대
 
 
 코드리뷰의 형태는 대부분 아래와 같은 구조로 이루어짐.
