@@ -331,7 +331,7 @@ _이거아님_
 
 - [MyBatis의 Risk와 JPA의 필요성](#MyBatis의-Risk와-JPA의-필요성)
 - [Builder 패턴 도입](#Builder-패턴-도입)
-
+- [주니어의 코드리뷰는 외않대?](#주니어의-코드리뷰는-외않대?)
 ---
 
 ---
@@ -561,6 +561,7 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
     OrderDTO orderDTO3 = new OrderDTO(new OrderEntity());
     OrderDTO orderDTO4 = new OrderDTO(new Member(), 1);
     OrderDTO orderDTO5 = new OrderDTO(new OrderMember());
+    OrderDTO orderDTO6 = new OrderDTO(1, 2, 3, 4);
 }
 ```
 
@@ -667,24 +668,165 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
                             .orderedByMember()
                             .orderMember(new OrderMember())
                             .build();
+    OrderDTO orderDTO6 = OrderDTO()
+                            .justKidding()
+                            .seq(1)
+                            .orderId(2)
+                            .memberId(3)
+                            .count(4)
+                            .build();
 }
 ```
 
 
+
+<br>
+
+단순 **아래 코드 VS 만 봐도 도입 이유가 명확**해짐
+
+
+```java
+
+    // Constructor Pattern
+    OrderDTO constructorPattern = new OrderDTO(1, 2, 3, 4);
+
+    
+    // Builder Pattern
+    OrderDTO builderPattern = OrderDTO()
+                            .justKidding()
+                            .seq(1)
+                            .orderId(2)
+                            .memberId(3)
+                            .count(4)
+                            .build();
+```
+
+<br>
+
+**생성자를 증강하는 패턴의 개발이 아닌**,
+
+**`Builder`를 증강하는 패턴의 개발을 지향** 하자!
+
 ---
 
 
-loginTest, loginWithCCSP 메소드 예시로 전환 가능 코드 예시
+## 주니어의 코드리뷰는 외않대?
 
 
+코드리뷰의 형태는 대부분 아래와 같은 구조로 이루어짐.
 
 
+`주니어 개발자(개발 및 리뷰 요청)[Feature] > (PR) > 시니어 개발자(리뷰 변경 요청, 승인)[Dev]`
+
+![img_20.png](img_20.png)
+
+_이런 느낌_
+<br>
+
+**대부분 이 구조인 이유는 명확**함, 
+
+해당 **프로젝트나 코드에 대한 이해도가 높은 시니어**에 의해,
+
+**보다 적은 프로젝트나 코드 이해도의 주니어**가 **작성한 코드를 피드백** 받고,
+
+**주니어의 코드 성장 및 프로젝트 소스 코드의 안정성을 유지**할 수 있음.
+
+<br>
 
 
-- 브런치 전략 변경 개발 > 동료 > 리뷰어 > 최종 승인자 > 메인
-  동료, 전파 효과//리뷰어 어쨋든 기존 코드 컨벤션 등 입장에서 1차로 함 // 최종 승인자가 보고서 받듯이 거기만 보면 되고 문제나 개선점 보이면 해당 리뷰 참여자들 다 같이 얘기나누며 병합
+내가 **제안하고 싶은 부분**은 **기존 구조에서 한 단계를 추가하는 것**임.
 
 
+`주니어 개발자(개발 및 토론 요청)[Feature] > (PR) >  주니어 개발자(서로 토론, 단순 실수 체크, 승인)[Debate] > 주니어 개발자(리뷰 요청)[Debate]> (PR) > 시니어 개발자(리뷰 변경 요청, 승인)[Dev]`
+
+![img_21.png](img_21.png)
+_이런 느낌_
+
+<br>
+
+이 **구조를 제안하는 이유**는 아래와 같음.
+
+
+### 코드 성장은 더 잘아는 사람에 의해서만 일어나지 않는다.
+
+단순히 더 잘아는 사람이 피드백 주는 형태 외에도 
+
+비슷한 지식 수준을 가진 인원간의 논의과정에서도 코드 성장은 일어난다.
+
+<br>
+
+![img_22.png](img_22.png)
+
+_아~ 미,적분 완벽히 이해했어요 교수님!_
+
+![img_23.png](img_23.png)
+
+_아! 이게 더하기라는 거였구나!_
+
+같이 토의하고 논의하는 과정에서도 실력 향상은 발생할 수 있다.
+
+
+### 민감 Branch에 코드 적용 전 한번 더 체크할 수 있다. 
+
+아래 주요한 **`Git Flow` Branch 전략에서, `develope` Branch**도,
+
+각 **개발자가 개발한 코드들이 최초로 집결하는 중요한 Branch**라 할 수 있다.
+
+![img_24.png](img_24.png)
+
+
+민감할 수 있는 `Develope` Branch에 적용 전 **한 단계의 Filter가 추가되는 효과**를 볼 수 있다. 
+
+<br>
+
+### 단순 실수가 포함된 리뷰에 소요되는 시니어의 시간을 줄일 수 있다.
+
+![img_25.png](img_25.png)
+
+_이런건 같은 주니어도 발견해줄 수 있다 ㅋㅋ_
+
+단순 주석 미제거 실수나, 커밋 내용을 제대로 확인하지 못한 상태에서
+
+해당 리뷰시 시니어가 소비하는 시간을 줄일 수 있다.
+
+
+### Pair Programming의 효과를 간접적으로 경험할 수 있다.
+
+
+같은 레벨의 동료가 작성한 코드를 보고 **문의하고 싶은 내용이 있거나**,
+
+**자신의 방식과 다른 코드를 발견**하여 **논의하고 싶은 내용이 존재할 시**,
+
+**서로 논의하며 함께 코드를 완성**시켜나가며 한 작업물을 가지고,
+
+**Pair Programming을 한것과 같은 효과를 기대**할 수 있다.
+
+
+### 피드백 더블링
+
+
+주니어 개발자간의 리뷰 후 병합된 결과물을 가지고,
+
+시니어에게 리뷰를 받을 경우,
+
+시니어 1 리뷰 시간에 주니어 2 리뷰한 효과를 기대할 수 있다.
+
+_A시니어: 똑같이 10분만 투자했는데, 2마리의 토끼를 교육시켰읍니다! 아 정말 좋은 제도임니다!😁_
+
+
+### 리뷰어 경험 기회 제공
+
+주니어도 코드 리뷰어가 되보는 경험을 쌓을 수 있다.
+
+<br>
+
+위 장점들을 고려했을때 같은 주니어 개발자들끼리의 코드 리뷰 단계를 추가하는 제도의 도입은,
+
+여러모로 효과적이라고 볼 수 있다.
+
+<br>
+
+---
 
 ## 12주 법칙 <<
 
