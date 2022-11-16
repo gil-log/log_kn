@@ -1000,7 +1000,7 @@ _아래 참고_
 
 <br>
 
-**`너 나와`**는 도입 제안하는 **Pair Programming 제도**임.
+`너 나와`는 도입 제안하는 **Pair Programming 제도**임.
 
 <br>
 
