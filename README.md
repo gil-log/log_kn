@@ -465,10 +465,11 @@ _저게 뭔 테이블인데 이 씹덕아_
 
 ![img_17.png](img_17.png)
 
+<br>
 
 ![img_19.png](img_19.png)
 
-
+<br>
 
 ---
 
@@ -663,7 +664,7 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
                             .entity(new OrderEntity())
                             .build();
     OrderDTO orderDTO4 = OrderDTO
-                            .createdByMember
+                            .createdByMember()
                             .member(new Member())
                             .seq(1);
     OrderDTO orderDTO5 = OrderDTO()
@@ -708,6 +709,8 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
 **생성자를 증강하는 패턴의 개발이 아닌**,
 
 **`Builder`를 증강하는 패턴의 개발을 지향** 하자!
+
+<br>
 
 ---
 
