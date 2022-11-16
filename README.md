@@ -330,6 +330,9 @@ _이거아님_
 ## 목차
 
 - [MyBatis의 Risk와 JPA의 필요성](#MyBatis의-Risk와-JPA의-필요성)
+- [Builder 패턴 도입](#Builder-패턴-도입)
+
+---
 
 ---
 
@@ -465,8 +468,217 @@ _저게 뭔 테이블인데 이 씹덕아_
 
 
 
-## 생성자 늘리기, 단순 set > Builder 패턴 도입
+---
+
+
+## Builder 패턴 도입
+
+
+**아래와 같은 단순 생성자를 늘리는 형태의 Code**는 **코드가 간결해지는 장점**이 있음.
+
+
+```java
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class OrderDTO extends CommonDTO {
+
+    ...
+    
+    public OrderDTO(long seq) {
+        setSeq(seq);
+    }
+
+    public OrderDTO(OrderEntity entity) {
+        if(entity == null) {
+            return;
+        }
+        setSeq(entity.getSeq());
+        ...
+    }
+}
+
+public OrderDTO saveOrder(OrderDTO orderDTO) {
+    orderDTO.setStatus(Status.ONLINE);
+    OrderEntity orderEntity = new OrderEntity(orderDTO);
+    return new OrderDTO(orderRepository.save(orderEntity));
+}
+
+```
+
+**위 코드가 간결한 개발이 가능해진다는 장점이 존재**하지만,
+
+**생성자가 많아지거나**, 객체 생성이 **다양한 다른 객체를 통해 생성되도록 로직이 복잡해지면**,
+
+**아래와 같은 문제가 발생함**.
+
+```java
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class OrderDTO extends CommonDTO {
+
+    ...
+    
+    public OrderDTO(long seq) {
+        setSeq(seq);
+    }
+
+    public OrderDTO(OrderEntity entity) {
+        if(entity == null) {
+            return;
+        }
+        setSeq(entity.getSeq());
+        ...
+    }
+    
+    public OrderDTO(Member member, int orderId) {
+        if(entity == null) {
+            return;
+        }
+        setSeq(entity.getSeq());
+        ...
+    }
+
+    public OrderDTO(OrderMember orderMember) {
+        if(entity == null) {
+            return;
+        }
+        setSeq(entity.getSeq());
+        ...
+    }
+}
+
+
+
+public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
+
+    // 이게.. 어떤 목적으로 만들어져있던거지...?
+    OrderDTO orderDTO1 = new OrderDTO();
+    OrderDTO orderDTO2 = new OrderDTO(1);
+    OrderDTO orderDTO3 = new OrderDTO(new OrderEntity());
+    OrderDTO orderDTO4 = new OrderDTO(new Member(), 1);
+    OrderDTO orderDTO5 = new OrderDTO(new OrderMember());
+}
+```
+
+
+위 코드 예제 처럼 **객체 생성자를 증강하는 패턴**은,
+
+**해당 객체의 생성 목적성을 낮추는 결과를 초래**하게됨.
+
+
+### VS Builder
+
+
+Builder Pattern을 도입한 코드 예제는 아래와 같음.
+
+<br>
+
+```java
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class OrderDTO extends CommonDTO {
+
+    ...
+
+    @Builder(
+            builderClassName = "init"
+            , builderMethodName = "initOrder"
+    )
+    private OrderDTO(long seq) {
+        setSeq(seq);
+    }
+
+    @Builder(
+            builderClassName = "entity"
+            , builderMethodName = "fromEntity"
+    )
+    private OrderDTO(OrderEntity entity) {
+        if(entity == null) {
+            return;
+        }
+        setSeq(entity.getSeq());
+        ...
+    }
+}
+
+public OrderDTO saveOrder(OrderDTO orderDTO) {
+    orderDTO.setStatus(Status.ONLINE);
+    OrderEntity orderEntity = OrderEntity
+            .initOrder()
+            .dto(orderDTO)
+            .build();
+    return OrderDTO
+            .fromEntity()
+            .entity(orderRepository.save(orderEntity))
+            .build();
+}
+```
+
+<br>
+
+위 코드 예제에서 **주목하고 싶은 부분은 아래 구문**임.
+
+
+```java
+return OrderDTO
+            .fromEntity()
+            .entity(orderRepository.save(orderEntity))
+            .build();
+```
+
+`.fromEntity()`와 같이, Builder 채용 시 **해당 객체의 생성 목적을 명시적인 메소드 형태로 선언**하고,
+
+Chaining 형태로 **해당 객체 생성 목적에 의해 필요한 객체들을 이어나갈 수 있어**,
+
+**객체 생성시의 목적성이 뚜렷하게 유지**될 수 있도록 함.
+
+
+<br>
+
+아래와 같이 **눈에 띄게 식별이 가능**해짐.
+
+
+```java
+public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
+
+    // 아하! 이거때문에 이 객체를 생성하는거였지!
+    OrderDTO orderDTO1 = OrderDTO
+                            .initOrder()
+                            .build();
+    OrderDTO orderDTO2 = OrderDTO()
+                            .initById()
+                            .seq(1)
+                            .build();
+    OrderDTO orderDTO3 = OrderDTO
+                            .fromEntity()
+                            .entity(new OrderEntity())
+                            .build();
+    OrderDTO orderDTO4 = OrderDTO
+                            .createdByMember
+                            .member(new Member())
+                            .seq(1);
+    OrderDTO orderDTO5 = OrderDTO()
+                            .orderedByMember()
+                            .orderMember(new OrderMember())
+                            .build();
+}
+```
+
+
+---
+
+
 loginTest, loginWithCCSP 메소드 예시로 전환 가능 코드 예시
+
+
+
+
 
 
 - 브런치 전략 변경 개발 > 동료 > 리뷰어 > 최종 승인자 > 메인
