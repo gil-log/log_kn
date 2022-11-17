@@ -1,5 +1,5 @@
 # KN.log
-![img_3.png](img/img_3.png)
+![img_3.png](img_3.png)
 - 주니어 개발자의 우당탕탕 `KN` Project 회고록
 
 ---
@@ -206,7 +206,7 @@
 
 ### 프로젝트 수행 인력
 
-![img.png](img/img.png)
+![img.png](img.png)
 
 - 기획, 디자인
     - 총합 : 6+명
@@ -277,7 +277,7 @@ _후 이제 끝났으니 일단 다음거 박죠? << XXXXX_
 
 **우리가 겪은 `경험`, `고민`, `생각`, `결정`, `갈등`을 한번 되돌아보는것**이 **다음으로 나아가기 위한 스텝이라고 생각**함.
 
-![img_10.png](img/img_10.png)
+![img_10.png](img_10.png)
 
 _못한점 : 반면교사, 잘한점 : 이건 좋았다 ㄹㅇ ㅋㅋ_
 
@@ -285,7 +285,7 @@ _못한점 : 반면교사, 잘한점 : 이건 좋았다 ㄹㅇ ㅋㅋ_
 
 본인은 `KN` Project를 수행하며 22.07.03일 부터 **중간중간 생각나거나 생각한 내용들을 슬랙 채널에 러프하게 정리**했었음.
 
-![img_1.png](img/img_1.png)
+![img_1.png](img_1.png)
 
 _정말 러프 그 자체 ㅋㅋ 나중에 정리해야지 던져둠_
 
@@ -297,7 +297,7 @@ _정말 러프 그 자체 ㅋㅋ 나중에 정리해야지 던져둠_
 
 KN.log의 목표는 **해당 내용을 개발의 진리이니 따라라~ 하는 것이 아님**
 
-![img_2.png](img/img_2.png)
+![img_2.png](img_2.png)
 
 _이거아님_
 
@@ -335,6 +335,7 @@ _이거아님_
 - [주니어의 코드리뷰는 외않대](#주니어의-코드리뷰는-외않대)
 - [관습과 제도](#관습과-제도)
 - [너 나와](#너-나와)
+- [이건 좀 논란 있을듯](#이건-좀-논란-있을듯)
 ---
 
 ---
@@ -342,7 +343,7 @@ _이거아님_
 ## MyBatis의 Risk와 JPA의 필요성
 
 `KN` Project에서는 대략 700개의 신규 화면을 개발해야 했음.
-![img_5.png](img/img_5.png)
+![img_5.png](img_5.png)
 _이런게 700개??_
 
 <br>
@@ -350,16 +351,16 @@ _이런게 700개??_
 
 이러한 상황에서 **기존 `Huvenet`의 개발 방식은 1페이지 1API(Resource)가 의존되어있는 개발 방식** 이었음.
 
-![img_4.png](img/img_4.png)
+![img_4.png](img_4.png)
 
-![img_6.png](img/img_6.png)
+![img_6.png](img_6.png)
 
 _이런게 수백개가... 😲_
 
 
 또한 `KN` Project 에서는 `Legacy` DB와 연계가 되어야해서 **최종적으로는 `KN` DB를 바라보는 API를 개발해야 했음**.
 
-![img_7.png](img/img_7.png)
+![img_7.png](img_7.png)
 
 _저게 뭔 테이블인데 이 씹덕아_
 
@@ -387,11 +388,11 @@ _저게 뭔 테이블인데 이 씹덕아_
 
 이걸 시각화해서 기존 휴비넷 구조와 비교하면 아래와 같음
   - `Huvenet` 방식
-    - ![img_8.png](img/img_8.png)
+    - ![img_8.png](img_8.png)
     
 
   - `KN` Project 적용 방식
-    - ![img_9.png](img/img_9.png)
+    - ![img_9.png](img_9.png)
 
 
 위 **`KN` Project 구조가 개선 가능한 문제점은 아래**와 같음 
@@ -399,14 +400,14 @@ _저게 뭔 테이블인데 이 씹덕아_
 - 비슷한 로직(쿼리)의 중복 개발 문제 해결
   - Query 단에서는 최대한 단순한 구조, 참조하는 다른 테이블의 `UniqueID(FK)`를 통해 Java Service 단에서, 조립 하는 방식
   - _레고 느낌?_
-  - ![img_11.png](img/img_11.png)
+  - ![img_11.png](img_11.png)
 
 - 개발자 마다 다른 쿼리 작성 문제 해결
   - Query 생산량을 최소화 시키고, Service 단에서 조립하는 형태로 추상적인 테이블 이해도가 낮아도, 모델링된 Java 객체를 이해하여 보다 나은 접근 가능
-  - ![img_12.png](img/img_12.png) 
+  - ![img_12.png](img_12.png) 
   - _아 ?? 님 차량 옵션 가격 필요하세요? A테이블 CBU_OPT_AMT 쓰시면 되요~_
   - VS
-  - ![img_14.png](img/img_14.png) 
+  - ![img_14.png](img_14.png) 
   - _아 ?? 님 차량 옵션 가격 필요하세요? CarModelOption.carOptionPrice 되요~_
 
 
@@ -435,11 +436,11 @@ _저게 뭔 테이블인데 이 씹덕아_
 **한 Table(Resource)에 대해 어떠한 검색조건(where), 정렬조건(Order), 조회 희망 데이터**가
 **필요한지, 필요하게될지 모르므로 모든 Case에 대한 대비가 가능한 구조**
 
-![img_13.png](img/img_13.png)
+![img_13.png](img_13.png)
 
-![img_15.png](img/img_15.png)
+![img_15.png](img_15.png)
 
-![img_16.png](img/img_16.png)
+![img_16.png](img_16.png)
 
 
 
@@ -462,13 +463,13 @@ _저게 뭔 테이블인데 이 씹덕아_
 
 **JPA에서는 해당 `뚱뚱이` 생성 작업이 아래**와 같음.
 
-![img_18.png](img/img_18.png)
+![img_18.png](img_18.png)
 
-![img_17.png](img/img_17.png)
+![img_17.png](img_17.png)
 
 <br>
 
-![img_19.png](img/img_19.png)
+![img_19.png](img_19.png)
 
 <br>
 
@@ -724,7 +725,7 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
 
 `주니어 개발자(개발 및 리뷰 요청)[Feature] > (PR) > 시니어 개발자(리뷰 변경 요청, 승인)[Dev]`
 
-![img_20.png](img/img_20.png)
+![img_20.png](img_20.png)
 
 _이런 느낌_
 <br>
@@ -745,7 +746,7 @@ _이런 느낌_
 
 `주니어 개발자(개발 및 토론 요청)[Feature] > (PR) >  주니어 개발자(서로 토론, 단순 실수 체크, 승인)[Debate] > 주니어 개발자(리뷰 요청)[Debate]> (PR) > 시니어 개발자(리뷰 변경 요청, 승인)[Dev]`
 
-![img_21.png](img/img_21.png)
+![img_21.png](img_21.png)
 _이런 느낌_
 
 <br>
@@ -761,11 +762,11 @@ _이런 느낌_
 
 <br>
 
-![img_22.png](img/img_22.png)
+![img_22.png](img_22.png)
 
 _아~ 미,적분 완벽히 이해했어요 교수님!_
 
-![img_23.png](img/img_23.png)
+![img_23.png](img_23.png)
 
 _아! 이게 더하기라는 거였구나!_
 
@@ -778,7 +779,7 @@ _아! 이게 더하기라는 거였구나!_
 
 각 **개발자가 개발한 코드들이 최초로 집결하는 중요한 Branch**라 할 수 있다.
 
-![img_24.png](img/img_24.png)
+![img_24.png](img_24.png)
 
 
 민감할 수 있는 `Develope` Branch에 적용 전 **한 단계의 Filter가 추가되는 효과**를 볼 수 있다. 
@@ -787,7 +788,7 @@ _아! 이게 더하기라는 거였구나!_
 
 ### 단순 실수가 포함된 리뷰에 소요되는 시니어의 시간을 줄일 수 있다.
 
-![img_25.png](img/img_25.png)
+![img_25.png](img_25.png)
 
 _이런건 같은 주니어도 발견해줄 수 있다 ㅋㅋ_
 
@@ -986,7 +987,7 @@ _신뢰성 100% 위키에서 퍼옴_
 
 개발 방법론 중 `Pair Programming`이 있음.
 
-![img_26.png](img/img_26.png)
+![img_26.png](img_26.png)
 > Pair Programming : 두 명의 프로그래머 가 하나의 워크스테이션에서 함께 작업 하는 민첩한 소프트웨어 개발 기술입니다. <br> 하나는 드라이버(Driver)가 코드 를 작성 하는 반면 다른 안내자(Navigator)가 입력되는 각 코드를 검토 합니다. <br> 두 프로그래머는 역할을 자주 바꿉니다.
 
 _역시나 신뢰성 100% 위키 발췌_
@@ -1031,7 +1032,7 @@ _A : 너 나와!<br> B : 헉! 나오겠습니다!_
 
 **`너 나와`가 도입되면 활성도가 높아 질 수 있을거라고 기대**함.
 
-![img_27.png](img/img_27.png)
+![img_27.png](img_27.png)
 
 _우리가 돈주고 쓰는 IntelliJ 에서 Code With Me라는 실시간 코드 공유 기능도 있음<br> 써봤는데 엄청 유용👍🏻_
 
@@ -1050,10 +1051,161 @@ _온보딩에도 도움이 될 수 있지 않을까_
 
 ---
 
-### ccsp login 관련 bad code 작성 남기고 loginTest 메소드 예제로 실제 뒤로 던진 결과 최종 수정시에 과정
-(눈으로 보이는 작업량보여주기, 뒤로 던진 코드가 유지보수 시에 더 할일이 많아지는거)
+## 이건 좀 논란 있을듯
 
 
+**`KN` Project 하면서 코드 리팩토링 중 가장 기억에 남는 것**이 하나 있음.
+
+
+바로 얘임.
+
+```java
+    public ResultObject<UserSession> loginTest(UserSession userSession, HttpServletRequest request) {
+        UserSession userSessionDetail = memberDAO.selectMemberTest(userSession);
+        if(userSessionDetail == null) return new ResultObject<>(false, "로그인에 실패하였습니다.");
+        userSessionDetail.setComUser(memberDAO.selectCompanyUserGubnByMember(userSessionDetail.getUserId()));
+        Card paramCard = new Card();
+        paramCard.setUserId(userSessionDetail.getUserId());
+        userSessionDetail.setCardList(cardDAO.selectCard(paramCard));
+        log.info(userSessionDetail.toString());
+        request.getSession().setAttribute(CommonConstants.ATTR_USERSESSION, userSessionDetail);
+        return new ResultObject<>(userSessionDetail);
+    }
+```
+
+<br>
+
+가장 기억에 남는 부분이 어디냐면, 더 자세히 보면 여기임.
+
+
+```java
+public ResultObject<UserSession> loginTest(UserSession userSession, HttpServletRequest request) {
+```
+
+<br>
+
+얘가 언제 왜 만들어졌냐면,
+
+![img_28.png](img_28.png)
+
+
+최초에 DB 연동 테스트도 볼겸 로그인이 필요했던 3월 22일에, 
+
+**로그인 테스트 용도로 만들었던 메소드**였음.
+
+**대고객에서는 `CCSP`로 로그인**해야해서 **외부연동 전까지 테스트 목적으로 만든 메소드**였음.
+
+
+<br>
+
+
+**문제**는 대고객 소스를 가지고 **영업용 프로젝트를 생성할 때도 이 코드가 사용되었다는 것**임.
+
+![img_29.png](img_29.png)
+
+_RIP. for loginTest 22.03.22 ~ 22.06.29_
+
+
+<br>
+
+
+**프로젝트가 진행**될수록 **Session에 로그인 정보에 필요한 데이터가 늘어나게 됐고**,
+
+**해당 메소드는 계속 커졌음.**
+
+<br>
+
+나는 생성 후 해당 메소드가 무거워 질때마다, 
+
+**바쁘다는 핑계로 나중에 수정해야지** 하면서 미뤄뒀음.
+
+<br>
+
+나중에 **Session을 사용하는 다른 곳에서도 `loginTest()`를 호출하는 형태**를,
+
+**리팩토링 하는데 애먹었던 기억이 가장 크게 남음.**
+
+
+
+<br>
+
+**해당 이슈로 느낀 점**은 아래와 같음.
+
+- 지금 편하자고 짠 코드는 나중에 눈덩이 처럼 커져서 되돌아 온다.
+- 문제를 인지한 시점이 해결하기 가장 빠른 시점이다.
+
+
+
+**결국 아래 문장**과 같음.
+
+> 한명의 개발자가 생성한 BadCode가 점차 수정되기 어려워지고, 중간에 이슈를 발견했을 때 수정하는 것이 가장 빠르다. 
+
+<br>
+
+**이걸 해결할 수 있는건 내 생각엔 아래**와 같음.
+
+
+> BadCode로 보이는 이슈는 최대한 빨리 발견되어야 한다.
+
+
+<br>
+
+이렇게도 생각할 수 있을 것 같다.
+
+_👀 : 그럼 BadCode를 안짜면 되는게 근본 해결 아닌가요??_
+
+
+<br>
+
+이 질문에 대한 내 대답은,
+
+**내 손을 떠난 시점**부터 내가 짠 **Code는 BadCode로 변질될 가능성이 높아진다**라는 것임.
+
+_Good Code가 시간이 지나고 보니 어느새 BadCode로 바뀌어 있을 수도._
+
+<br>
+
+그럼 어떻게 해야할까
+
+
+**제일 첫 번째 방법**은 **최대한 BadCode 작성을 지양**할 수 있도록, **CodeReview를 면밀히 보는 것**임.🧐
+
+
+
+<br>
+
+
+하지만 **통과하고 잘 정착한 Code 역시 BadCode로 변질 될 수 있기에**,
+
+또다른 방법은 **누군가 처음 인지한 변질 가능성 있는 Code를 이슈 제기 하는 것**임.
+
+<br>
+
+**바로 이렇게**
+
+![img_30.png](img_30.png)
+
+
+
+<br>
+
+**신규 슬랙 채널 `#controversial` 에 이슈가 보이는 SourceCode들만** 올리고,
+
+**주요해 보이는 Code 이슈**는 매주 **주간 회의때 안건으로 제안하는 것으로 활용 가능**할 것으로 보임.
+
+
+
+
+`a bit controversial`
+
+![img_31.png](img_31.png)
+
+_엄격한 구글 번역을 거친 옳바른 단어 선택 😏_
+
+
+<br>
+
+---
 
 ### 쓰레기통 쓰레드 같은거나 채널 만들거나 레포지토리 만들어서 아무나 작업하다가 거기다가 이슈 던지고 회의떄 같이 얘기나누는거 좋을거같다
 1명이 전체 코드 큰그림으로 안좋은거 찾는거보다 여러명이 작업하다가 보게되는 예전 코드, 구 프로젝트, 레거시에서 문제점 파악 가능
