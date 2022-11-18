@@ -340,6 +340,7 @@ _이거아님_
 - [도서관과 사서](#도서관과-사서)
 - [인싸 아싸 API](#인싸-아싸-API)
 - [삐익 정원이 초과되었습니다](#삐익-정원이-초과되었습니다)
+- [Dart](#Dart)
 ---
 
 ---
@@ -2001,24 +2002,552 @@ _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 
 ---
 
-- 다트
-  API 개발 시 응답 값을 특정지을 수 있게 영점조절 최대한 정확하게 맞출 수 있도록 검색 조건을 신경써야 한다<< 이걸 제일 중요하게 API 만들때 생각해야 한다
-  콜백지옥을 부름
-  데이터양 많아지면 미친다
+## Dart
+
+![img_47.png](img_47.png)
+
+**Dart 게임**의 **표적판에 Dart를 던져 맞춘 영역의 점수를 가져가는 게임**임.
+
+**서로 번 갈아 가며 계속 Dart를 던짐**.
+
+**맞추기 힘든 영역**일 수록 **점수가 더 높음**
+
+**정 가운데가 가장 점수가 높은 영역**임
 
 
-- url 계층 관계 API
-  /api/longRent?memberName=길선웅
-  /api/longRent/member?name=길선웅
-  back 단 입장에서 longRentService에는 member의 unique Id 가 있을 경우 반환 타입을 set 하는 로직 수정 X
-  member 단에서 검색조건을 활용하는 객체의 uniqueid를 longRent에 set할 수 있음
-  longRentController에 longRent dto로 받을 때 member의 검색조건에 사용될 dto의 컬럼을 계속 증강하는게 아닌, longRentMemberHandler에서는 MEmber 객체를 매개변수로 받을 수 있음
-  결국 코드 수정량 줄어듬
+<br>
+
+**`KN` Project**를 하면서 **내가 Dart 를 하고 있는거 아닌가 하는 생각이 든 적**이 많았는데,
+
+
+**원하는 상황의 데이터를 얻기 위해**,
+
+**요청 파라미터를 신규로 추가**하고 **API 요청 하는 행위**가,
+
+꼭 **가운데 표적판을 맞추기 위해 Dart를 계속 던지는 것과 비슷하다고 생각**했음.
+
+이런 느낌임
+
+
+```
+    [시작]
+    // 나는 장기렌트 id 값으로 조회해야돼
+        > /api/longRent?id=1
+    
+    // 나중에 member 이름으로 조회해야 하는 상황 발생
+    // 나는 장기렌트 대여 고객 명으로 조회해야돼
+    // 기존 longRent api에 신규 파라미터 추가
+        > /api/longRent?memberName=gillog
+    
+    // 나중에 member 전화번호로 조회해야 하는 상황 발생
+    // 나는 장기렌트 대여 고객 전화번호로 조회해야돼
+    // 기존 longRent api에 신규 파라미터 추가
+        > /api/longRent?memberTel=01010910910
+    
+    ...
+```
+
+<br>
+
+
+그런데 위 상황을 Java 내에서 보면 이런 형태임
+
+
+```java
+    [시작]
+
+    @GetMapping("/api/longRent")
+    public Contents<LongRent> getLongRentList(LongRent longRent, UserSession userSession) {
+        ...
+    }
+    
+    // 나는 장기렌트 id 값으로 조회해야돼
+        > /api/longRent?id=1
+        public class LongRent {
+            private String id;
+            private Member member;
+            ...
+        }
+    
+    // 나중에 member 이름으로 조회해야 하는 상황 발생
+    // 나는 장기렌트 대여 고객 명으로 조회해야돼
+    // 기존 longRent api에 신규 파라미터 추가
+        > /api/longRent?memberName=gillog
+        public class LongRent {
+            private String id;
+            private Member member;
+            
+            // 신규 필드 추가
+            private String memberName;
+            ...
+        }
+    // 나중에 member 전화번호로 조회해야 하는 상황 발생
+    // 나는 장기렌트 대여 고객 전화번호로 조회해야돼
+    // 기존 longRent api에 신규 파라미터 추가
+        > /api/longRent?memberTel=01010910910
+        public class LongRent {
+            private String id;
+            private Member member;
+            private String memberName;
+            
+            // 신규 필드 추가
+            private String memberTel;
+            ...
+        }
+```
+
+<br>
+
+위와 같이 **신규 필드로 추가한건 `/api/longRent/member.memberName=?` 형태의 객체 단위 URL 파라미터를 지양하기 위함**이었음.
+
+그러다보니 **기존 `/api/longRent`에 계속 신규 파라미터를 증강하는 형태로 개발**하게 되었고,
+
+**증강 될 때마다 해당 객체엔 `Member` 라는 멤버 정보를 담는 객체가 존재**하는데도,
+
+**요청 Parameter에 사용되는 field가 계속 추가**되어갔음.
+
+
+<br>
+
+이 사단이 난건 **개발 편의성을 위해 요청 객체를 따로 만들지 않은채**,
+
+**반환 객체와 요청 객체를 같이 쓰자는 아이디어에서 시작**되었고,
+
+
+프로젝트가 진행될 수록 요청 + 반환 객체는 무거워져갔음.
+
+
+
+<br>
+
+또한 **`/api/longRent` 의 요청 파라미터가 증강**될 때마다,
+
+**해당 Service 부분은 날이 갈 수록 무거워졌고**,
+
+해당 **API 관련 수정하다 한칫 잘못되는 날**이면,
+
+**여러 화면단으로 위험도가 전염**되었음
+
+<br>
+
+이 사태를 겪으며 든 생각은 아래 두가지임
+
+`요청, 반환 객체 분리`, `API 계층관계`
+
+<br>
+
+### 요청, 반환 객체 분리
+
+**API가 늘어날 때**마다 **반환 객체, 요청 객체를 따로 만드는 것이 비효율적일 것이라는 판단**은 **완전 잘못**되었음.
+
+_gillog 네 이놈!😡_
+
+<br>
+
+해당 **API에 대한 요청 파라미터가 수정되고 추가되는 일은 항상 빈번하게 발생**했음.
+
+이때마다 **요청 파라미터 field가 증강**되면,
+
+<br>
+
+**요청 용도로 생성된 field가 추후에 테이블의 데이터를 담게되거나**,
+
+**로직에 활용**되는 등 **오인 사용**되며 **해당 field의 목적성이 혼탁**해질 수 있음.
+
+또한 **DB 데이터를 담고 있지 않지만** 로직 구현 시 **DB 데이터를 담고 있는 field로 착각**하고 **로직 구현할 위험성도 존재**함.
+
+```java
+    [field 생성 목적성 혼탁]
+        [A 개발자]
+        아 파라미터 하나 필요하니까 파라미터 용 field 하나 추가해야지
+        public class LongRent {
+            ...
+            private String memberName;
+        }
+        
+        
+        ... 1주일 후
+        [B 개발자]
+        엥 여기에 신규 필드 뭐지? 대충 의미 비슷하니까 로직 구현 할때 데이터 담는 용으로 써야겠다 ㅋㅋ
+        public void someBusinessLogic(LongRent longRent) {
+            longRent.setMemberName("gillog");
+            ...
+        }
+    
+    [field 목적성 오인]
+        [A 개발자]
+        아 파라미터 하나 필요하니까 파라미터 용 field 하나 추가해야지
+        public class LongRent {
+                ...
+            private String newField;
+        }
+    
+        [B 개발자]
+        가만 있어 보자,, 렌트의 사용자 이름 정보가 이거인거 같은데? 맞겠지 뭐
+        public Payment someBusinessLogic(Payment payment) {
+            LongRent longRent = longRentDAO.selectLongRent(...);
+            ...
+            // 결제 정보에 예약자 이름 넣어야지~
+            Payment result = payment.setMemberName(longRent.getMemberName());
+            ...
+        }
+```
+
+<br>
+
+**그게 뭐가 문제인데 그냥 추가되면 로직에서 잘 구분지어서 사용하고 그대로 두면 되지 할 수 있음**.
+
+<br>
+
+**아래 `LongRent` 객체**를 보고 **API의 요청 파라미터로 쓰일 수 있는 field 100% 맞추면 인정**함.
+
+
+```java
+public class LongRent {
+    private String userId;
+    private Member contractor;
+    private String carId;
+    private String carModelId;
+    private String companyId;
+    private String adminId;
+    private String togetherUserId;
+    private Member togetherUser;
+    private String suryUserId;
+    private Member suryUser;
+    private KRCZ_BR_EE_M admin;
+    private Date contractDate = new Date();
+    private Date contractEndDate;
+    private int duration;
+    private int specialContract;
+    private int carPrice;
+    private int prePay;
+    private int deposit;
+    private String deductible;
+    private int monthlyFee;
+    private int yearKm;
+    private ContractState contractState;
+    private Car car;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date takeOutDate;
+    private CouponMember couponMember;
+    private Payment payment;
+    private Company company;
+    private String mgmt_br_cd;
+    private SalesOffice mgmtBr;
+    private String pobTel;
+    private Date insertDateTime;
+    private Integer remainingChange;
+    private int totalRentFee;
+    private CmsBank cmsBank;
+    private String cmsAccount;
+    private String cmsOwnerName;
+    private int eachMonthPayDay;
+    private CmsBank virtualBank;
+    private String virtualAccount;
+    private String sale_br_cd;
+    private Branch saleBr;
+    private CarMaintainService carMaintainService;
+    private List<Insurance> insuranceList;
+    private List<LongRentDriver> longRentDriverList;
+    private List<KRCA_MDRVR_I_EC> originalLongRentDriverList;
+    private List<LongRentPayment> longRentPaymentList;
+    private Long csmr_sn;
+    private Boolean isCompanyId;
+    private String eSignDocumentId;
+    private Boolean isOrUserIdCompanyId;
+    private String companyIds;
+    private List<String> companyIdList;
+    private String billEmail;
+    private SearchField[] fields;
+    private Integer remainingRentMonth;
+    private String userName;
+    private String companyNo;
+    private String carNo;
+    private List<Member> memberList;
+    private List<Company> companyList;
+    private List<Car> carList;
+    private List<ContractState> contractStates;
+    private String lnd_strt_ymd;
+    private String lnd_fnh_ymd;
+    private String rtrn_ymd;
+    private String rtrn_hhmm;
+    private String SCLAS_CD;
+}
+```
+_어떤게 DB 데이터를 담고 있는 field이고, 어떤게 요청 파라미터 field 일까_
+
+<br>
+
+**앞서 살펴본 오인 케이스들**은 **Compile 시점에 인지 할 수 없음**.
+
+_Exception이 아님_
+
+**직접 구동되고 테스트하는 단계**에서 **이상함을 감지해야만 발견**됨.
+
+_개발단계 때 못 발견하고 운영 서버에 적용되고나서 나중에 발견될 수도_
+
+
+<br>
+
+**요청 객체와 반환 객체**는 **아래처럼 반드시 분리하는 것이 올바름.**
+
+```java
+public class LongRent {
+    private String id;
+    private Member member;
+    ...
+}
+
+public class LongRentRequest {
+    private String id;
+    private String memberName;
+    private String memberTel;
+    ...
+}
+```
+
+
+### API 계층관계
+
+이번에 말하고 싶은 건 **API의 계층 관계를 고려하고 양분해야 한다는 것**임.
+
+앞서 살펴본 예제 API 인 **`/api/longRent`는 아래와 같은 검색 조건이 추가**되었음.
+
+```
+[시작]
+// 나는 장기렌트 id 값으로 조회해야돼
+    > /api/longRent?id=1
+
+// 나중에 member 이름으로 조회해야 하는 상황 발생
+// 나는 장기렌트 대여 고객 명으로 조회해야돼
+// 기존 longRent api에 신규 파라미터 추가
+    > /api/longRent?memberName=gillog
+
+// 나중에 member 전화번호로 조회해야 하는 상황 발생
+// 나는 장기렌트 대여 고객 전화번호로 조회해야돼
+// 기존 longRent api에 신규 파라미터 추가
+    > /api/longRent?memberTel=01010910910
+    
+...
+```
+
+**특정 API의 검색조건이 계속 추가되는게 꼭 잘못된 현상은 아니지만**,
+
+**계층 관계를 제대로 API로 구현하지 못해 하나의 API로 의존성이 집약되는 것일 수 있음**.
+
+
+<br>
+
+**위 API는 아래 두 API로 나눠서 바라보게 할 수 있음**.
+
+```
+// LongRent 관련 요청 파라미터는 해당 api에서 처리
+/api/longRent?id=1
+
+// LongRent의 Member 관련 요청 파라미터는 해당 api에서 처리
+/api/longRent/member?name=gillog
+```
+
+<br>
+_
+
+```java
+    // LongRent 자원에 포함된 Member 자원의 정보 name으로의 LongRent 조회
+    /api/longRent/member?name=gillog
+
+
+    @GetMapping("/api/longRent/member")
+    public Contents<LongRent> getLongRentListByMember(Member member, UserSession userSession) {
+        ...
+    }
+
+    // 얘는 이미 memberName, memberTel field를 가지고 있거늘..
+    public class Member {
+        private String name;
+        private String tel;
+    }
+``` 
+
+
+**자원 사이 계층관계를 표현**한 위 **API를 사용했다면 불필요한 파라미터 생성을 막을 수 있었음.**
+
+_그냥 API 또 만들기 귀찮았음😬_
+
+
+
+<br>
+
+이번 **`KN` Project에서 설계한 API의 Rule 기반은 `REST API`** 임.
+
+**물론 그저 `REST API` 호소 API 밖에 안됨**.
+
+<br>
+
+**`REST API`에서 자원 사이의 연관, 종속, 소유 관계의 URL 표현**은,
+
+`REST API`에서 **`R(Resource)`의 근간이 되는 Core Rule**임.
+
+
+<br>
+
+이번 **`KN` Project에서는 Callback 지옥 상황이 정말 많이 발생**했음.
+
+_한 API의 반환 값 중 FK 값을 가지고 또 다른 API를 호출하고 거기서의 FK 값으로 ,,,,_
+
+
+<br>
+
+이 **Callback 지옥**이 **하나의 Super API를 사용하는 것이 아닌 여러 API 를 사용해야 하는 `F-E`, `B-E` 구조**에서,
+
+**일어 날 수 있는 현상일 수 도** 있지만,
+
+**계층 관계를 제대로 구현한 API 가 없어 어쩔수 없이 선택한 결과 일 수도 있음.**
+
+
+```json
+
+/api/car?id=1
+{
+  "id" : 1
+  , ...
+  ,  CarModel 정보가 없음
+  , "carModelId" : 14
+
+}
+
+>> after callback
+
+/api/carModel?id=14
+{
+  "id" : 14
+  , ...
+  , 대충 CarModel 정보
+}
+
+```
+
+<br>
+
+**종속된 하위 자원**을 **선택적으로 포함 시키게 하는 `fields` 라는 parameter**는 이번에 사용했었음.
+
+![img_50.png](img_50.png)
+
+_REST API에서 fields parameter의 개념은 아님_
+
+<br>
+
+```java
+public class LongRent {
+    ...
+    private SearchField[] fields;
+    ...
+}
+
+public enum SearchField {
+    MEMBER, COMPANY, BRANCH, SALESOFFICE, INSURANCE, DRIVER, PAYMENT, CAR;
+}
+
+public List<LongRent> getLongRentDetail(LongRent longRent) {
+        List<LongRent> result = longRentDAO.selectLongRentList(longRent);
+        if(longRent.getFields() != null) {
+            boolean isSearchMember = Arrays.asList(longRent.getFields()).contains(SearchField.MEMBER);
+            boolean isSearchCOMPANY = Arrays.asList(longRent.getFields()).contains(SearchField.COMPANY);
+            boolean isSearchBRANCH = Arrays.asList(longRent.getFields()).contains(SearchField.BRANCH);
+            boolean isSearchSALESOFFICE = Arrays.asList(longRent.getFields()).contains(SearchField.SALESOFFICE);
+            boolean isSearchINSURANCE = Arrays.asList(longRent.getFields()).contains(SearchField.INSURANCE);
+            boolean isSearchDRIVER = Arrays.asList(longRent.getFields()).contains(SearchField.DRIVER);
+            boolean isSearchPAYMENT = Arrays.asList(longRent.getFields()).contains(SearchField.PAYMENT);
+            boolean isSearchCAR = Arrays.asList(longRent.getFields()).contains(SearchField.CAR);
+            result.forEach(longRentItem -> {
+                if(isSearchMember && longRentItem.getUserId() != null) {
+                    Member memberParam = new Member();
+                    memberParam.setCsmr_sn(Long.parseLong(longRentItem.getUserId()));
+                    List<Member> contractorList = memberDAO.selectMember(memberParam);
+                    if (!contractorList.isEmpty()) longRentItem.setContractor(basicUserInfo(contractorList.get(0)));
+                }
+                List<KRCZ_BR_EE_M> adminList = miplatformDAO.selectSalesMember(new KRCZ_BR_EE_M(longRentItem.getAdminId()));
+                if (!adminList.isEmpty()) longRentItem.setAdmin(adminList.get(0));
+                if(isSearchCOMPANY) {
+                    List<Company> companyList = companyDAO.selectCompany(new Company(longRentItem.getCompanyId()));
+                    if (!companyList.isEmpty()) longRentItem.setCompany(companyList.get(0));
+                }
+                if(isSearchBRANCH) {
+                    List<Branch> branchList = miplatformDAO.selectBranchList(new Branch(longRentItem.getMgmt_br_cd()));
+                    if (!branchList.isEmpty()) longRentItem.setSaleBr(branchList.get(0));
+                }
+                if(isSearchSALESOFFICE) {
+                    List<SalesOffice> salesOfficeList = miplatformDAO.selectSalesOfficeListBySalesOffice(new SalesOffice(longRentItem.getSale_br_cd()));
+                    if (!salesOfficeList.isEmpty()) longRentItem.setMgmtBr(salesOfficeList.get(0));
+                }
+                if(isSearchINSURANCE) {
+                    List<Insurance> insuranceList = insuranceDAO.selectInsuranceList(new Insurance(null, longRentItem.getId()));
+                    if (!insuranceList.isEmpty()) longRentItem.setInsuranceList(insuranceList);
+                }
+                if(isSearchDRIVER) {
+                    KRCA_MDRVR_I_EC krca_mdrvr_i_ec = new KRCA_MDRVR_I_EC();
+                    krca_mdrvr_i_ec.setCntt_no(longRentItem.getId());
+                    List<KRCA_MDRVR_I_EC> longRentDriverList = new ArrayList<>();
+                    try {
+                        longRentDriverList = getOriginalLongRentDriverMemberList(krca_mdrvr_i_ec);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    longRentItem.setOriginalLongRentDriverList(longRentDriverList.stream().filter(e -> !e.getOg_drvr_no().equals("1")).collect(Collectors.toList()));
+                }
+                if(isSearchPAYMENT) {
+                    LongRentPayment longRentPaymentParam = new LongRentPayment();
+                    longRentPaymentParam.setLongRentId(longRentItem.getId());
+                    List<LongRentPayment> longRentPaymentList = paymentDAO.selectLongRentPayment(longRentPaymentParam);
+                    if (!longRentPaymentList.isEmpty()) longRentItem.setLongRentPaymentList(longRentPaymentList);
+                }
+                if(isSearchCAR) {
+                    Car paramCar = new Car(longRentItem.getCarId());
+                    List<Car> searchCarList = carService.getCarDetail(paramCar);
+                    if(!searchCarList.isEmpty()) longRentItem.setCar(searchCarList.get(0));
+                }
+            });
+        }
+        return result;
+    }
+```
+
+**이런 형태가 제일 많이 사용되는 자원의 경우**,
+
+**하나의 Super API를 만드는 것이 될 수 있어 위험**할 수 있지만,
+
+**CallBack 지옥을 해결 할 수 있어 특정 상황들에서 많이 생성**했음.
+
+
+<br>
+
+**계층형 API를 구현할 때 EndPoint가 많아진다 라는 위험성도 존재**함.
+
+또한 **URL depth 자체가 길어질 수 있음.**
+
+```
+// 휴비넷에 종속된 id 1번 개발자에 종속된 기기 중 os가 mac인 정보 반환 
+/api/huvenet/developer/1/devices?os=mac
+```
+
+<br>
+
+하지만 `API 의존도 분산`, `종속, 연관 관계 데이터 정보 반환 용이성` 등의 장점을 고려해,
+
+**앞으로 다가올 API 설계시**에는 **계층형 API 설계도 조심스레 다가갈 필요가 있음.**
 
 
 
 
-- 의도 전달이 참 어렵다
+
+
+<br>
+
+- [목차](#목차)
+
+---
+
+
+## 의도 전달이 참 어렵다
 
 너가 언제 뭐 했잖아 왜 그렇게 안했어
 연애에서 좋은 상대일까, 인간관계에서,좋은 사람 ?? X
@@ -2026,33 +2555,13 @@ _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 문제 발견 > 이슈 제기 > 문제 해결
 문제 발견 > 그냥 어휴 내가 하지 뭐 > 문제 발견 > 그냥 어휴 내가 하지 뭐 > 루프
 
-
-- 이슈 중요도가 다르다.
-  개발자가 생각하는 중요도, 기획자가 생각하는 중요도, 사용자가 생각하는 중요도
-  이슈 중요도를 맞추는 방법
-
-박관호 매니저님이 캘린더 기본 값 날짜를 40년대에 맞춰달라했는데
-개발자는 어차피 대충 캘린더 옵션만 바꾸면 되지 나중에 급한거부터 하고 해줄게
-개발자는 보이지도 않는 다른 DB단, 비즈니스 로직만 몰두
-사용할 현업들은 불편함 계속 > 히잉.. 언제 해줘 느낌
+- =의도전달을 아무리 노력한들 다음날은 3가지 그 다음날은 5가지 , .... n개의 받아들인 내용이 존재한다
 
 
-
-- 무분별한 정보의 지속적 노출은 오히려 도움이 안된다.
-  TMI
-  특정 채널에 common.js 공통화 함수 추가, 변동사항 내역 계속 올림
-  채널 알람 꺼버림, 나중에 찾아보지도 않음, 중복코드 다량 발생
-
-나중에 openKakaoMap 함수는 소스본에서 어떻게 사용되었을까
-
-!- image
-
-우리 개발 위키
-우리도 하나 있으면 안됨?
-!- image
-
-Api 문서 까지?!
-
+### 수달과 솜사탕
+진수성찬을 준비해 열심히 먹는사람에게 간들 그걸 엎어버리면 무슨 소용
+좋은내용 좋은것 도 다 상대적개념
+전달방식의 중요성
 
 
 - 규약 잡는게 정말 중요하다.
@@ -2060,46 +2569,10 @@ Api 문서 까지?!
   그게 소스 컨벤션이든, 개발 규약이든, 업무처리방식이든
 
 
-- 수달과 솜사탕
-  진수성찬을 준비해 열심히 먹는사람에게 간들 그걸 엎어버리면 무슨 소용
-  좋은내용 좋은것 도 다 상대적개념
-  전달방식의 중요성
 
+## 최적, 최선, 최고
 
-
-- 최적, 최선, 최고
-
-- 성공적인 온보딩 지원이란
-
-
-- 생산자와 소비자
-  -- 오마카세
-  --- 오마카세에 갔는데 화려한 손기술, 고급스런 장비, 싱싱한 재료 인들,
-  요리사한테 'ㅎㅎ 오늘 뭐가 맛있어요?' 물어 봤더니,
-  '다 맛있으니까 빨리 고르기나해요 개열받네' 하는 케이스
-
-요리사한테 '이거 참치를 똥통에 빠뜨려서 바짝 타듯이 구워서 레어 상태로 주시겠어요?'
-요리사 : '넹(뭐지 미친놈인가)'
-요리 : (똥)
-손님 : '으악 뭐야 이거'
-요리사 : '? 니가 이렇게 해달라매요'
-
-- 왼손 네번째 손가락을 걸고, 의도전달을 아무리 노력한들 다음날은 3가지 그 다음날은 5가지 , .... n개의 받아들인 내용이 존재한다
-
-- 미안하다 1년전 길록아
-
-
-- 개발자 전시회, 사이드프로젝트, 사이드프로젝트 서버, 성장 측정기 스카우터 사이트
-- 내가한 성장 작성하고 성장치 그래프로 보여주는 사이트
-- 노력이 어려운 이유는 가시적인
-- 무수히 요청을 보내도 pending되는게 아니라 빈 값을 response 해주니
-
-
-- 인터페이스를 너무 쉽게 생각했나??
-- -스파게티 코드, SRP, 비즈니스 로직 세분화 관련
-
-## 카테고리화
-- 알고있는 지식을 카테고링, 범주화 시키는게 중요하다.
+## 성공적인 온보딩 지원이란
 
 ## 티키타카
 - 티키타카는 축구 용어 인데, 합 맞추면서 패스 하는게 더 공격적
@@ -2115,6 +2588,13 @@ Api 문서 까지?!
 - 하루에 얼마나 많은 검색, 지식 정리, 공부 ? 각각 하는데
 - 그게 공유가 안되니 버려지는 부분이 많지 않을까?
     - 킹크랩이나 돼지 도축같은 사진으로 버려지는 부위 많은거 사진
+
+
+### 카테고리화
+- 알고있는 지식을 카테고링, 범주화 시키는게 중요하다.
+
+
+
 
 ## 초년 출세
 - 션이 22.10.19에 휴비넷 개발자들한테 강의 해준 내용중에 초년출세의 반대 그게 있었는데,
@@ -2142,6 +2622,8 @@ Api 문서 까지?!
 뭐가 오디세우스의 배일까?
 뭐라고 얘깋
 
+
+
 ## 단단함과 유연함
 단단하면서 유연할수는 없을 것 같다.
 시니어는 단단해야하고, 주니어는 유연해야한다.
@@ -2149,7 +2631,21 @@ Api 문서 까지?!
 - 월드워 z 이스라엘 생존 부분
 
 
-## 101마리 달마시안
+## 생산자와 소비자
+-- 오마카세
+--- 오마카세에 갔는데 화려한 손기술, 고급스런 장비, 싱싱한 재료 인들,
+요리사한테 'ㅎㅎ 오늘 뭐가 맛있어요?' 물어 봤더니,
+'다 맛있으니까 빨리 고르기나해요 개열받네' 하는 케이스
+
+요리사한테 '이거 참치를 똥통에 빠뜨려서 바짝 타듯이 구워서 레어 상태로 주시겠어요?'
+요리사 : '넹(뭐지 미친놈인가)'
+요리 : (똥)
+손님 : '으악 뭐야 이거'
+요리사 : '? 니가 이렇게 해달라매요'
+
+
+
+### 101마리 달마시안
 100개의 버그
 1개의 정말 중요한 버그
 
@@ -2172,6 +2668,22 @@ Api 문서 까지?!
 로직을 몰라서 올리는 건들이 정말 많았는데,
 
 로직 설명을 잘했다면 이사람들이 그렇게 올렸을까?.
+
+
+
+### 이슈 중요도가 다르다.
+  개발자가 생각하는 중요도, 기획자가 생각하는 중요도, 사용자가 생각하는 중요도
+  이슈 중요도를 맞추는 방법
+
+박관호 매니저님이 캘린더 기본 값 날짜를 40년대에 맞춰달라했는데
+개발자는 어차피 대충 캘린더 옵션만 바꾸면 되지 나중에 급한거부터 하고 해줄게
+개발자는 보이지도 않는 다른 DB단, 비즈니스 로직만 몰두
+사용할 현업들은 불편함 계속 > 히잉.. 언제 해줘 느낌
+
+
+
+
+
 
 ## 피트 스탑, 우물안 개구리
 
