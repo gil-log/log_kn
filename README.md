@@ -2824,14 +2824,14 @@ _Fusion!_
 
 ### Tiki
 
-**그것이 바로 `Tiki`**임.
+그것이 바로 `Tiki`임.
 
 ![img_56.png](img_56.png)
 
 _[Tiki 바로 가기](https://www.notion.so/huvenet/Tiki-cb8bbddf1cbb4289b4141208f3d22bb0)_
 
 
-**`Tiki`는 개발지식 공유 `Wiki`**임
+`Tiki`는 개발지식 공유 `Wiki`임
 
 _휴비넷 노션 개발 가이드 최하단에 있음_
 
