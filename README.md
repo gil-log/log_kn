@@ -1543,6 +1543,7 @@ _POST로 정상적으로 생성했는데 이걸 200응답을 줘 201 응답을 �
 
 만약 **이 API를 쓰는 다른 시스템**에서 **여러 실패 상황에 구체적인 로직 구현이 필요하다면?**
 
+_FrontEnd - BackEnd 분기 구조도 마찬가지_
 
 ```java
     private SomeResponse methodInAnotherSystem(SomeRequest request) {
@@ -1584,7 +1585,7 @@ _POST로 정상적으로 생성했는데 이걸 200응답을 줘 201 응답을 �
 
 <br>
 
-사실 대부분의 외부 API들은 `message` 뿐 아니라, 특정 Custom `code` 값 역시 제공하고 있음.
+사실 **대부분의 외부 연동용 API들**은 **`message` 뿐 아니라, 특정 Custom `code` 값 역시 제공**하고 있음.
 
 ![img_38.png](img_38.png)
 
