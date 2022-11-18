@@ -1527,9 +1527,6 @@ _POST로 정상적으로 생성했는데 이걸 200응답을 줘 201 응답을 �
 
 
 ```json
-
-/*
-    
     HTTP/1.1
     application/json
     status: 500
@@ -1537,8 +1534,6 @@ _POST로 정상적으로 생성했는데 이걸 200응답을 줘 201 응답을 �
         "success": false
         , "message": "Some Reason accorded 에러"
     }
- */
-
 ```
 
 **여기서 말하고 싶은 부분**은 **언제든 변동 가능**하고, **개발자가 임의로 작성**한 **String message로만 실패 상황을 알려준다는 것**임.
