@@ -2026,6 +2026,10 @@ _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 
 꼭 **가운데 표적판을 맞추기 위해 Dart를 계속 던지는 것과 비슷하다고 생각**했음.
 
+_사실 맞출 영역이 없어 표적판에 영역을 늘리는 형태 였음_
+
+<br>
+
 이런 느낌임
 
 
