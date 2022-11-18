@@ -1412,13 +1412,13 @@ public ResponseEntity<Response<?>> getGillogInfo(SampleRequest request) {
 
 ### HttpStatus Code가 성공 실패 여부와 상관없이 `OK(200)` 응답
 
-**API는 결국 `HTTP` Protocol에 의해서 송, 수신** 됨.
+**해당 API는 결국 `HTTP` Protocol에 의해서 송, 수신** 됨.
 
 _HTTP의 P가 Protocol_
 
 <br>
 
-**`HTTP`**에서 `HttpStatus` 는 **해당 Protocol의 기본 구조 중 하나**임.
+`HTTP`에서 `HttpStatus` 는 **해당 Protocol의 기본 구조 중 하나**임.
 
 **정의된 `HttpStatus`는 수없이 많이 존재**함.
 
