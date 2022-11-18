@@ -1397,6 +1397,8 @@ public ResponseEntity<Response<?>> getGillogInfo(SampleRequest request) {
 
 ```
 
+<br>
+
 **위 API가 아싸인 이유는 아래**와 같음.
 
 - HttpStatus Code가 성공 실패 여부와 상관없이 `OK(200)` 응답
@@ -1405,6 +1407,8 @@ public ResponseEntity<Response<?>> getGillogInfo(SampleRequest request) {
 
 위 두 가지 측면을 자세히 살펴보면 아래와 같음.
 
+
+<br>
 
 ### HttpStatus Code가 성공 실패 여부와 상관없이 `OK(200)` 응답
 
