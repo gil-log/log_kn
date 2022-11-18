@@ -2313,6 +2313,7 @@ public class LongRentRequest {
 }
 ```
 
+<br>
 
 ### API 계층관계
 
@@ -2347,18 +2348,11 @@ public class LongRentRequest {
 
 **위 API는 아래 두 API로 나눠서 바라보게 할 수 있음**.
 
-```
-// LongRent 관련 요청 파라미터는 해당 api에서 처리
-/api/longRent?id=1
-
-// LongRent의 Member 관련 요청 파라미터는 해당 api에서 처리
-/api/longRent/member?name=gillog
-```
-
-<br>
-_
-
 ```java
+    // LongRent 관련 요청 파라미터는 해당 api에서 처리
+    /api/longRent?id=1
+        
+    // LongRent의 Member 관련 요청 파라미터는 해당 api에서 처리    
     // LongRent 자원에 포함된 Member 자원의 정보 name으로의 LongRent 조회
     /api/longRent/member?name=gillog
 
