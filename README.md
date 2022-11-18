@@ -1333,8 +1333,350 @@ _누구냐 과거 CCSP 개발자 🤬_
 
 ## 인싸 아싸 API 
 
-API API 생성시 상태 값, 응답 코드 정리 잘하자
-나만 쓰는 API 만들때 응답 코드 메시지 같은거 그냥 생략하면 ~~~ 어쩌고인거임 하는거 자체도 로직
+
+**API에도 인싸, 아싸가 있다??**
+
+_뿌슝 빠슝 뿌슝_
+
+<br>
+
+**영국 캠브릿지 대학**의 **존 브링스 박사**님이
+
+**20명의 연구진**과 함께 **5년간의 연구**를 **해볼 것도 없이**
+
+**API에도 인싸와 아싸로 구분 될 수 있음.**
+
+_그런 연구는 없어용~_
+
+
+<br>
+
+### 아싸 API
+
+아싸 API는 아래와 같음.
+
+
+```java
+
+private class Response<Object> {
+    private boolean success;
+    private String message;
+    private Object result;
+}
+
+
+public ResponseEntity<Response<?>> getGillogInfo(SampleRequest request) {
+    Response<String> outSiderResponse = Response
+                                            .response()
+                                            .ok()
+                                            .result("I am OutSider API Response");
+    if(에러 터지면) outSiderResponse = Response
+                                            .response()
+                                            .fail()
+                                            .message("Some Reason accorded 에러");
+    return ResponseEntity.ok().body(outSiderResponse);
+}
+
+/*
+    HTTP/1.1
+    application/json
+    status: 200
+    {
+        "success": true
+        , "result": "I am OutSider API Response"
+    }
+    
+    HTTP/1.1
+    application/json
+    status: 200
+    {
+        "success": false
+        , "message": "Some Reason accorded 에러"
+    }
+ */
+
+```
+
+**위 API가 아싸인 이유는 아래**와 같음.
+
+- HttpStatus Code가 성공 실패 여부와 상관없이 `OK(200)` 응답
+- API 실패 응답 시 mutable 한 String message로만 결과를 응답 
+
+
+위 두 가지 측면을 자세히 살펴보면 아래와 같음.
+
+
+### HttpStatus Code가 성공 실패 여부와 상관없이 `OK(200)` 응답
+
+**API는 결국 `HTTP` Protocol에 의해서 송, 수신** 됨.
+
+_HTTP의 P가 Protocol_
+
+<br>
+
+**`HTTP`**에서 `HttpStatus` 는 **해당 Protocol의 기본 구조 중 하나**임.
+
+**정의된 `HttpStatus`는 수없이 많이 존재**함.
+
+![img_35.png](img_35.png)
+
+_2XX 번대 만 해도 이거보다 더 있음_
+
+
+<br>
+
+**`HttpStatus`는 3자리 수로 앞 자리 숫자에 의해 유형이 나뉘게됨**.
+
+
+- `1XX (조건부 응답)` : `정보 전달` - 요청을 받았고, 작업을 진행 중이라는 의미
+
+- `2XX (성공)` : `성공` - 이 작업을 성공적으로 받았고, 이해했으며, 받아들여졌다는 의미
+
+- `3XX (리다이렉션 완료)` : `리다이렉션` - 이 요청을 완료하기 위해서는 리다이렉션이 이루어져야 한다는 의미
+
+- `4XX (요청 오류)` : `클라이언트 오류` - 이 요청은 올바르지 않다는 의미
+
+- `5XX (서버 오류)` : `서버 오류` - 올바른 요청에 대해 서버가 응답할 수 없다는 의미
+
+
+
+<br>
+
+**여기서 말하고자 하는 바**는, **각 처리 결과에 따라 세부적인 `HttpStatus`를 사용해야 한다는 얘기는 아님.**
+
+```json
+    HTTP/1.1
+    application/json
+    status: 200
+    {
+        "success": true
+        , "result": "성공함"
+    }
+    
+    HTTP/1.1
+    application/json
+    status: 201
+    {
+        "success": true
+        , "message": "생성됨"
+    }
+    
+    HTTP/1.1
+    application/json
+    status: 202
+    {
+    "success": true
+    , "message": "요청은 알겠는데 처리는 안함"
+    }
+```
+
+
+<br>
+
+
+단지 **오류 응답**과 **성공 응답은 구분 될 수 있어야 한다는 얘기**를 하고 싶음.
+
+
+
+```json
+    HTTP/1.1
+    application/json
+    status: 200
+    {
+    "success": true
+    , "result": "I am OutSider API Response"
+    }
+    
+    HTTP/1.1
+    application/json
+    status: 500
+    {
+    "success": false
+    , "message": "Some Reason accorded 에러"
+    }
+```
+
+
+<br>
+
+
+**개발자들 사이에서도 다양한 의견**으로 **특정 상황에서 어떤 `HttpStatus`를 사용하는 것이 맞는지 의견이 분분**함.
+
+
+![img_36.png](img_36.png)
+
+_POST로 정상적으로 생성했는데 이걸 200응답을 줘 201 응답을 줘?? 🤔_
+
+
+<br>
+
+**너무 다양한 `HttpStatus` 활용** 역시 **사용하는 입장에서 처리하기 까다로울 수 있어 지향점은 아니라고 생각**함.
+
+**단, 성공, 실패와 같은 큰 두 분류**는 **적어도 상태값을 서로 구분 지어야 한다는 것**임.
+
+
+<br>
+
+### API 실패 응답 시 mutable 한 String message로만 결과를 응답
+
+**아까 전 실패 상황에서 아래와 같은 응답을 반환**했음.
+
+
+```json
+
+/*
+    
+    HTTP/1.1
+    application/json
+    status: 500
+    {
+        "success": false
+        , "message": "Some Reason accorded 에러"
+    }
+ */
+
+```
+
+**여기서 말하고 싶은 부분**은 **언제든 변동 가능**하고, **개발자가 임의로 작성**한 **String message로만 실패 상황을 알려준다는 것**임.
+
+
+<br>
+
+만약 **이 API를 쓰는 다른 시스템**에서 **여러 실패 상황에 구체적인 로직 구현이 필요하다면?**
+
+
+```java
+    private SomeResponse methodInAnotherSystem(SomeRequest request) {
+        Response response = OKHttp.okHttpRequest("http://myapi.com/v1/outsider/api", HttpMethods.GET);
+        if(!response.isSuccessful()) {
+            ResponseBody responseBody = response.body();
+            String responseMessage = responseBody.getMessage();
+            switch(responseMessage) {
+                "Some Reason accorded 에러" :
+                    ...
+                    break;
+                "Some Reason accorded 에러2" :
+                    ...
+                    break;
+                
+                ...
+                
+                default:
+                    return new SomeResponse(false, "SHIT");
+                    break;
+            }       
+        }
+        ...
+    }
+
+```
+
+위와 같이 **실패상황이 계속 증강될 수 있고**, 각각의 **세부적인 로직 처리가 필요한 상황**에서
+
+**변동 가능한 단순 String Message로 분기되는 것이 굉장히 위험**함.
+
+<br>
+
+이번 **`KN` Project 에서 마주한 여러 외부연동용 API들**은 **대부분 아래**와 같이,
+
+**Custom code 값과 에러 상황을 매칭한 형태**였음.
+
+![img_37.png](img_37.png)
+
+<br>
+
+사실 대부분의 외부 API들은 `message` 뿐 아니라, 특정 Custom `code` 값 역시 제공하고 있음.
+
+![img_38.png](img_38.png)
+
+_KAKAO 로그인 API 가이드 문서_
+
+
+<br>
+
+이런식으로 **실패 상황에 대한 특정 Custom `code`를 연동 짓는 행위가 아래의 이점**을 가짐.
+
+- **내부적**으로 **해당 API의 실패 상황에 대한 문서화로 관리 용이**
+- **외부입장**에서 사용 시 내부 **개발자에게 문의 용이**
+- **내부입장**에서 외부에서 온 API 문의 **대응 용이**
+
+
+<br>
+
+그래서 **아래와 같은 API가 더 올바르다고 생각**함.
+
+```java
+
+/*
+    
+    HTTP/1.1
+    application/json
+    status: 500
+    {
+        "success": false
+        , "code": 109
+        , "message": "Some Reason accorded 에러"
+    }
+ */
+
+    // 위에서 살펴본 외부 시스템 입장에서도 예외처리 용이
+    private SomeResponse methodInAnotherSystem(SomeRequest request) {
+        Response response = OKHttp.okHttpRequest("http://myapi.com/v1/outsider/api", HttpMethods.GET);
+        if(!response.isSuccessful()) {
+            ResponseBody responseBody = response.body();
+            int responseFailCode = responseBody.getCode();
+            switch(responseFailCode) {
+                109 :
+                    ...
+                    break;
+                
+                ...
+
+                109109109 :
+                    ...
+                    break;
+
+                default:
+                    return new SomeResponse(false, "SHIT");
+                    break;
+            }       
+        }
+        ...
+    }
+
+```
+
+<br>
+
+### 인싸 API
+
+**인싸 API**는 **위에서 살펴본 아싸 API 예제를 최대한 고려**한, **다른 개발자들도 이해하는데 어려움이 없는 통용적인 API**임.
+
+
+- HttpStatus 상태값 준수
+- 실패 상황 code 반환
+
+
+
+<br>
+
+**현재 API 통신, 설계 방법으로는 다양한 방법이 존재**함.
+
+![img_39.png](img_39.png)
+
+![img_40.png](img_40.png)
+
+_[출처 : https://www.sensedia.com](https://www.sensedia.com/post/apis-rest-graphql-or-grpc-who-wins-this-game)_
+
+
+<br>
+
+**API 설계 규칙을 정할 때**는 **소속한 회사에만 국한된 규칙이 아닌**,
+
+조금 더 **넓은 시야**로 **다양한 개발자들이 고민하고 시도하는 설계 규칙도 함께 고려하며 설계 해야함.**
+
+
+**그것이 인싸 API** 임.
 
 
 <br>
