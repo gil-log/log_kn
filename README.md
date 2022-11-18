@@ -1469,8 +1469,8 @@ _2XX 번대 만 해도 이거보다 더 있음_
     application/json
     status: 202
     {
-    "success": true
-    , "message": "요청은 알겠는데 처리는 안함"
+        "success": true
+        , "message": "요청은 알겠는데 처리는 안함"
     }
 ```
 
@@ -1487,16 +1487,16 @@ _2XX 번대 만 해도 이거보다 더 있음_
     application/json
     status: 200
     {
-    "success": true
-    , "result": "I am OutSider API Response"
+        "success": true
+        , "result": "I am OutSider API Response"
     }
     
     HTTP/1.1
     application/json
     status: 500
     {
-    "success": false
-    , "message": "Some Reason accorded 에러"
+        "success": false
+        , "message": "Some Reason accorded 에러"
     }
 ```
 
