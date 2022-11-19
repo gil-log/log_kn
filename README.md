@@ -2026,7 +2026,7 @@ _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 
 ![img_47.png](img/img_47.png)
 
-**Dart 게임**의 **표적판에 Dart를 던져 맞춘 영역의 점수를 가져가는 게임**임.
+**Dart 게임**은 **표적판에 Dart를 던져 맞춘 영역의 점수를 가져가는 게임**임.
 
 **서로 번 갈아 가며 계속 Dart를 던짐**.
 
@@ -2121,7 +2121,7 @@ _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 
 <br>
 
-위와 같이 **신규 필드로 추가한건 `/api/longRent/member.memberName=?` 형태의 객체 단위 URL 파라미터를 지양하기 위함**이었음.
+위와 같이 **신규 필드로 추가한건 `/api/longRent/member.name=?` 형태의 객체 단위 URL 파라미터를 지양하기 위함**이었음.
 
 그러다보니 **기존 `/api/longRent`에 계속 신규 파라미터를 증강하는 형태로 개발**하게 되었고,
 
