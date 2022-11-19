@@ -1,5 +1,5 @@
 # KN.log
-![img_3.png](img_3.png)
+![img_3.png](img/img_3.png)
 - 주니어 개발자의 우당탕탕 `KN` Project 회고록
 
 - [목차](#목차) 
@@ -215,7 +215,7 @@
 
 ### 프로젝트 수행 인력
 
-![img.png](img.png)
+![img.png](img/img.png)
 
 - 기획, 디자인
     - 총합 : 6+명
@@ -286,7 +286,7 @@ _후 이제 끝났으니 일단 다음거 박죠? << XXXXX_
 
 **우리가 겪은 `경험`, `고민`, `생각`, `결정`, `갈등`을 한번 되돌아보는것**이 **다음으로 나아가기 위한 스텝이라고 생각**함.
 
-![img_10.png](img_10.png)
+![img_10.png](img/img_10.png)
 
 _못한점 : 반면교사, 잘한점 : 이건 좋았다 ㄹㅇ ㅋㅋ_
 
@@ -294,7 +294,7 @@ _못한점 : 반면교사, 잘한점 : 이건 좋았다 ㄹㅇ ㅋㅋ_
 
 본인은 `KN` Project를 수행하며 22.07.03일 부터 **중간중간 생각나거나 생각한 내용들을 슬랙 채널에 러프하게 정리**했었음.
 
-![img_1.png](img_1.png)
+![img_1.png](img/img_1.png)
 
 _정말 러프 그 자체 ㅋㅋ 나중에 정리해야지 던져둠_
 
@@ -306,7 +306,7 @@ _정말 러프 그 자체 ㅋㅋ 나중에 정리해야지 던져둠_
 
 KN.log의 목표는 **해당 내용을 개발의 진리이니 따라라~ 하는 것이 아님**
 
-![img_2.png](img_2.png)
+![img_2.png](img/img_2.png)
 
 _이거아님_
 
@@ -368,7 +368,7 @@ _이거아님_
 ## MyBatis의 Risk와 JPA의 필요성
 
 `KN` Project에서는 대략 700개의 신규 화면을 개발해야 했음.
-![img_5.png](img_5.png)
+![img_5.png](img/img_5.png)
 _이런게 700개??_
 
 <br>
@@ -376,16 +376,16 @@ _이런게 700개??_
 
 이러한 상황에서 **기존 `Huvenet`의 개발 방식은 1페이지 1API(Resource)가 의존되어있는 개발 방식** 이었음.
 
-![img_4.png](img_4.png)
+![img_4.png](img/img_4.png)
 
-![img_6.png](img_6.png)
+![img_6.png](img/img_6.png)
 
 _이런게 수백개가... 😲_
 
 
 또한 `KN` Project 에서는 `Legacy` DB와 연계가 되어야해서 **최종적으로는 `KN` DB를 바라보는 API를 개발해야 했음**.
 
-![img_7.png](img_7.png)
+![img_7.png](img/img_7.png)
 
 _저게 뭔 테이블인데 이 씹덕아_
 
@@ -413,11 +413,11 @@ _저게 뭔 테이블인데 이 씹덕아_
 
 이걸 시각화해서 기존 휴비넷 구조와 비교하면 아래와 같음
   - `Huvenet` 방식
-    - ![img_8.png](img_8.png)
+    - ![img_8.png](img/img_8.png)
     
 
   - `KN` Project 적용 방식
-    - ![img_9.png](img_9.png)
+    - ![img_9.png](img/img_9.png)
 
 
 위 **`KN` Project 구조가 개선 가능한 문제점은 아래**와 같음 
@@ -425,14 +425,14 @@ _저게 뭔 테이블인데 이 씹덕아_
 - 비슷한 로직(쿼리)의 중복 개발 문제 해결
   - Query 단에서는 최대한 단순한 구조, 참조하는 다른 테이블의 `UniqueID(FK)`를 통해 Java Service 단에서, 조립 하는 방식
   - _레고 느낌?_
-  - ![img_11.png](img_11.png)
+  - ![img_11.png](img/img_11.png)
 
 - 개발자 마다 다른 쿼리 작성 문제 해결
   - Query 생산량을 최소화 시키고, Service 단에서 조립하는 형태로 추상적인 테이블 이해도가 낮아도, 모델링된 Java 객체를 이해하여 보다 나은 접근 가능
-  - ![img_12.png](img_12.png) 
+  - ![img_12.png](img/img_12.png) 
   - _아 ?? 님 차량 옵션 가격 필요하세요? A테이블 CBU_OPT_AMT 쓰시면 되요~_
   - VS
-  - ![img_14.png](img_14.png) 
+  - ![img_14.png](img/img_14.png) 
   - _아 ?? 님 차량 옵션 가격 필요하세요? CarModelOption.carOptionPrice 되요~_
 
 
@@ -461,11 +461,11 @@ _저게 뭔 테이블인데 이 씹덕아_
 **한 Table(Resource)에 대해 어떠한 검색조건(where), 정렬조건(Order), 조회 희망 데이터**가
 **필요한지, 필요하게될지 모르므로 모든 Case에 대한 대비가 가능한 구조**
 
-![img_13.png](img_13.png)
+![img_13.png](img/img_13.png)
 
-![img_15.png](img_15.png)
+![img_15.png](img/img_15.png)
 
-![img_16.png](img_16.png)
+![img_16.png](img/img_16.png)
 
 
 
@@ -488,13 +488,13 @@ _저게 뭔 테이블인데 이 씹덕아_
 
 **JPA에서는 해당 `뚱뚱이` 생성 작업이 아래**와 같음.
 
-![img_18.png](img_18.png)
+![img_18.png](img/img_18.png)
 
-![img_17.png](img_17.png)
+![img_17.png](img/img_17.png)
 
 <br>
 
-![img_19.png](img_19.png)
+![img_19.png](img/img_19.png)
 
 <br>
 
@@ -755,7 +755,7 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
 
 `주니어 개발자(개발 및 리뷰 요청)[Feature] > (PR) > 시니어 개발자(리뷰 변경 요청, 승인)[Dev]`
 
-![img_20.png](img_20.png)
+![img_20.png](img/img_20.png)
 
 _이런 느낌_
 <br>
@@ -776,7 +776,7 @@ _이런 느낌_
 
 `주니어 개발자(개발 및 토론 요청)[Feature] > (PR) >  주니어 개발자(서로 토론, 단순 실수 체크, 승인)[Debate] > 주니어 개발자(리뷰 요청)[Debate]> (PR) > 시니어 개발자(리뷰 변경 요청, 승인)[Dev]`
 
-![img_21.png](img_21.png)
+![img_21.png](img/img_21.png)
 _이런 느낌_
 
 <br>
@@ -792,11 +792,11 @@ _이런 느낌_
 
 <br>
 
-![img_22.png](img_22.png)
+![img_22.png](img/img_22.png)
 
 _아~ 미,적분 완벽히 이해했어요 교수님!_
 
-![img_23.png](img_23.png)
+![img_23.png](img/img_23.png)
 
 _아! 이게 더하기라는 거였구나!_
 
@@ -809,7 +809,7 @@ _아! 이게 더하기라는 거였구나!_
 
 각 **개발자가 개발한 코드들이 최초로 집결하는 중요한 Branch**라 할 수 있다.
 
-![img_24.png](img_24.png)
+![img_24.png](img/img_24.png)
 
 
 민감할 수 있는 `Develope` Branch에 적용 전 **한 단계의 Filter가 추가되는 효과**를 볼 수 있다. 
@@ -818,7 +818,7 @@ _아! 이게 더하기라는 거였구나!_
 
 ### 단순 실수가 포함된 리뷰에 소요되는 시니어의 시간을 줄일 수 있다.
 
-![img_25.png](img_25.png)
+![img_25.png](img/img_25.png)
 
 _이런건 같은 주니어도 발견해줄 수 있다 ㅋㅋ_
 
@@ -1023,7 +1023,7 @@ _신뢰성 100% 위키에서 퍼옴_
 
 개발 방법론 중 `Pair Programming`이 있음.
 
-![img_26.png](img_26.png)
+![img_26.png](img/img_26.png)
 > Pair Programming : 두 명의 프로그래머 가 하나의 워크스테이션에서 함께 작업 하는 민첩한 소프트웨어 개발 기술입니다. <br> 하나는 드라이버(Driver)가 코드 를 작성 하는 반면 다른 안내자(Navigator)가 입력되는 각 코드를 검토 합니다. <br> 두 프로그래머는 역할을 자주 바꿉니다.
 
 _역시나 신뢰성 100% 위키 발췌_
@@ -1068,7 +1068,7 @@ _A : 너 나와!<br> B : 헉! 나오겠습니다!_
 
 **`너 나와`가 도입되면 활성도가 높아 질 수 있을거라고 기대**함.
 
-![img_27.png](img_27.png)
+![img_27.png](img/img_27.png)
 
 _우리가 돈주고 쓰는 IntelliJ 에서 Code With Me라는 실시간 코드 공유 기능도 있음<br> 써봤는데 엄청 유용👍🏻_
 
@@ -1125,7 +1125,7 @@ public ResultObject<UserSession> loginTest(UserSession userSession, HttpServletR
 
 얘가 언제 왜 만들어졌냐면,
 
-![img_28.png](img_28.png)
+![img_28.png](img/img_28.png)
 
 
 최초에 DB 연동 테스트도 볼겸 로그인이 필요했던 3월 22일에, 
@@ -1140,7 +1140,7 @@ public ResultObject<UserSession> loginTest(UserSession userSession, HttpServletR
 
 **문제**는 대고객 소스를 가지고 **영업용 프로젝트를 생성할 때도 이 코드가 사용되었다는 것**임.
 
-![img_29.png](img_29.png)
+![img_29.png](img/img_29.png)
 
 _RIP. for loginTest 22.03.22 ~ 22.06.29_
 
@@ -1222,7 +1222,7 @@ _Good Code가 시간이 지나고 보니 어느새 BadCode로 바뀌어 있을 �
 
 **바로 이렇게**
 
-![img_30.png](img_30.png)
+![img_30.png](img/img_30.png)
 
 
 
@@ -1236,7 +1236,7 @@ _Good Code가 시간이 지나고 보니 어느새 BadCode로 바뀌어 있을 �
 
 `a bit controversial`
 
-![img_31.png](img_31.png)
+![img_31.png](img/img_31.png)
 
 _엄격한 구글 번역을 거친 올바른 단어 선택 😏_
 
@@ -1251,7 +1251,7 @@ _엄격한 구글 번역을 거친 올바른 단어 선택 😏_
 ## 도서관과 사서
 
 
-![img_32.png](img_32.png)
+![img_32.png](img/img_32.png)
 
 
 **한 도서관**이 있음.
@@ -1276,7 +1276,7 @@ _찾고싶은 책 찾는데만 10시간ㅋㅋ_
 
 내가 하고 싶은말은 우리 API도 마찬가지라는 것임.
 
-![img_33.png](img_33.png)
+![img_33.png](img/img_33.png)
 
 
 <br>
@@ -1299,7 +1299,7 @@ _흑흑 미안합니다 흑흑흑 🥲_
 
 대표적인 예시가 `KN` Project의 `CCSP` 외부 연동이었음.
 
-![img_34.png](img_34.png)
+![img_34.png](img/img_34.png)
 
 <br>
 
@@ -1444,7 +1444,7 @@ _HTTP의 P가 Protocol_
 
 **정의된 `HttpStatus`는 수없이 많이 존재**함.
 
-![img_35.png](img_35.png)
+![img_35.png](img/img_35.png)
 
 _2XX 번대 만 해도 이거보다 더 있음_
 
@@ -1529,7 +1529,7 @@ _2XX 번대 만 해도 이거보다 더 있음_
 **개발자들 사이에서도 다양한 의견**으로 **특정 상황에서 어떤 `HttpStatus`를 사용하는 것이 맞는지 의견이 분분**함.
 
 
-![img_36.png](img_36.png)
+![img_36.png](img/img_36.png)
 
 _POST로 정상적으로 생성했는데 이걸 200응답을 줘 201 응답을 줘?? 🤔_
 
@@ -1603,13 +1603,13 @@ _FrontEnd - BackEnd 분기 구조도 마찬가지_
 
 **Custom code 값과 에러 상황을 매칭한 형태**였음.
 
-![img_37.png](img_37.png)
+![img_37.png](img/img_37.png)
 
 <br>
 
 사실 **대부분의 외부 연동용 API들**은 **`message` 뿐 아니라, 특정 Custom `code` 값 역시 제공**하고 있음.
 
-![img_38.png](img_38.png)
+![img_38.png](img/img_38.png)
 
 _KAKAO 로그인 API 가이드 문서_
 
@@ -1684,9 +1684,9 @@ _KAKAO 로그인 API 가이드 문서_
 
 **현재 API 통신, 설계 방법으로는 다양한 방법이 존재**함.
 
-![img_39.png](img_39.png)
+![img_39.png](img/img_39.png)
 
-![img_40.png](img_40.png)
+![img_40.png](img/img_40.png)
 
 _[출처 : https://www.sensedia.com](https://www.sensedia.com/post/apis-rest-graphql-or-grpc-who-wins-this-game)_
 
@@ -1710,7 +1710,7 @@ _[출처 : https://www.sensedia.com](https://www.sensedia.com/post/apis-rest-gra
 
 ## 삐익 정원이 초과되었습니다
 
-![img_42.png](img_42.png)
+![img_42.png](img/img_42.png)
 
 살면서 **엘리베이터를 타려다 아래 문구를 들어 본적 있을 것**임.
 
@@ -1722,7 +1722,7 @@ _[출처 : https://www.sensedia.com](https://www.sensedia.com/post/apis-rest-gra
 
 **누군가 내려야함**.
 
-![img_43.png](img_43.png)
+![img_43.png](img/img_43.png)
 
 _얄짤없이 안되지~_
 
@@ -1759,7 +1759,7 @@ _얄짤없이 안되지~_
 
 _중량 초과 상황 : 화면 최종 로딩에 너무 느림_
 
-![img_45.png](img_45.png)
+![img_45.png](img/img_45.png)
 
 
 _이외에도 [영업용] 계약, 견적 관련 API 사용 화면들에도 존재했음_
@@ -1802,7 +1802,7 @@ _이외에도 [영업용] 계약, 견적 관련 API 사용 화면들에도 존�
 
 그래서 실제 데이터와 맞물리고 나서야 `Pagination` 관련 기능을 급하게 개발함.
 
-![img_41.png](img_41.png)
+![img_41.png](img/img_41.png)
 
 <br>
 
@@ -1986,7 +1986,7 @@ _작성할때 최대한 고려하고, 추후에도 튜닝 가능한지 관심 �
 
 
 
-![img_46.png](img_46.png)
+![img_46.png](img/img_46.png)
 
 _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 
@@ -2024,7 +2024,7 @@ _[참고 : Junit.org](https://junit.org/junit5/docs/current/user-guide/)_
 
 ## Dart
 
-![img_47.png](img_47.png)
+![img_47.png](img/img_47.png)
 
 **Dart 게임**의 **표적판에 Dart를 던져 맞춘 영역의 점수를 가져가는 게임**임.
 
@@ -2451,7 +2451,7 @@ _한 API의 반환 값 중 FK 값을 가지고 또 다른 API를 호출하고 �
 
 **종속된 하위 자원**을 **선택적으로 포함 시키게 하는 `fields` 라는 parameter**는 이번에 사용했었음.
 
-![img_50.png](img_50.png)
+![img_50.png](img/img_50.png)
 
 _REST API에서 fields parameter의 개념은 아님_
 
@@ -2570,7 +2570,7 @@ public List<LongRent> getLongRentDetail(LongRent longRent) {
 
 ## 의도 전달은 참 어려워
 
-![img_51.png](img_51.png)
+![img_51.png](img/img_51.png)
 
 
 **`KN` Project 하면서 오랜 기간**이었다보니,
@@ -2610,7 +2610,7 @@ _이건 이렇게 하죠, 뭐 하셔야 됨, 이건 어떻게 해야함, 이렇�
 #### 전달 되는 순간 다르게 이해함
 
 
-![img_52.png](img_52.png)
+![img_52.png](img/img_52.png)
 
 아무리 잘 설명하고, 적은 량을 전달했어도,
 
@@ -2700,7 +2700,7 @@ _이건 이렇게 하죠, 뭐 하셔야 됨, 이건 어떻게 해야함, 이렇�
 
 <br>
 
-![img_53.png](img_53.png)
+![img_53.png](img/img_53.png)
 
 <br>
 
@@ -2780,7 +2780,7 @@ _여러 요소로 인한 결과이지 않을까?_
 
 ## 티키타카
 
-![img_54.png](img_54.png)
+![img_54.png](img/img_54.png)
 
 **티키타카는 축구에서 주로 사용되는 용어**임.
 
@@ -2819,7 +2819,7 @@ _오 너 나랑 티키타카가 좀 된다_
 
 **이 갭을 줄이고 서로 융화 되는것이 최고의 팀을 만드는 방법**임.
 
-![img_55.png](img_55.png)
+![img_55.png](img/img_55.png)
 
 _Fusion!_
 
@@ -2835,7 +2835,7 @@ _Fusion!_
 
 그것이 바로 `Tiki`임.
 
-![img_56.png](img_56.png)
+![img_56.png](img/img_56.png)
 
 _[Tiki 바로 가기](https://www.notion.so/huvenet/Tiki-cb8bbddf1cbb4289b4141208f3d22bb0)_
 
@@ -2896,11 +2896,11 @@ _누구는 머리에, 누구는 태블릿, 누구는 노트, 누구는 노션, �
 **한 물체**가 **단단하면서 유연할수는 없음.**
 
 
-![img_60.png](img_60.png)
+![img_60.png](img/img_60.png)
 
-![img_61.png](img_61.png)
+![img_61.png](img/img_61.png)
 
-![img_59.png](img_59.png)
+![img_59.png](img/img_59.png)
 
 _신뢰성 100% 네이버 국어사전_
 
@@ -2908,7 +2908,7 @@ _신뢰성 100% 네이버 국어사전_
 
 **단단함과 유연함은 `무르다` 라는 속성이 상반되는 단어**임.
 
-![img_58.png](img_58.png)
+![img_58.png](img/img_58.png)
 
 <br>
 <br>
@@ -2928,7 +2928,7 @@ _신뢰성 100% 네이버 국어사전_
 
 <br>
 
-![img_57.png](img_57.png)
+![img_57.png](img/img_57.png)
 
 **한 물체는 단단함과 유연함은 비율**로 이루어져 있음.
 
@@ -3048,7 +3048,7 @@ _모순 찾기_
 
 `월드워 Z` 라는 영화에서 성공적으로 생존한 나라가 있는데 `이스라엘`임.
 
-![img_62.png](img_62.png)
+![img_62.png](img/img_62.png)
 
 영화 내에서 **`이스라엘`에는 `10번째 사람` 이라는 집단 규칙**이 있었음.
 
@@ -3083,7 +3083,7 @@ _모순 찾기_
 ## 오마카세
 
 
-![img_63.png](img_63.png)
+![img_63.png](img/img_63.png)
 
 
 지금 **당신이 한 오마카세에 방문**했음.
@@ -3214,7 +3214,7 @@ _KN TF, 영업소 담당자, 본사 담당자, 영업소 실장, ICT 본부장, 
 
 <br>
 
-![img_64.png](img_64.png)
+![img_64.png](img/img_64.png)
 
 **최종 `소비자`인 `KN`으로 부터 기획 측 `AN`으로 변경 시도가 전달**되고,
 
@@ -3284,7 +3284,7 @@ _다른 팀원들 죄송합니다. 야근 주말근무 더 줄일 수 있었는�
 
 ### 101마리 달마시안
 
-![img_65.png](img_65.png)
+![img_65.png](img/img_65.png)
 
 _위 사진에서 달마시안이 아닌 흰 강아지를 찾아보기. 🧐_
 
@@ -3306,20 +3306,20 @@ _위 사진에서 달마시안이 아닌 흰 강아지를 찾아보기. 🧐_
 
 - 테스트 실패
   - 총 4,027건
-    - ![img_66.png](img_66.png)
+    - ![img_66.png](img/img_66.png)
       - 제 3자 테스트 수행 업체 1,411건
-    - ![img_67.png](img_67.png)
+    - ![img_67.png](img/img_67.png)
       - `AN` 대고객 테스트 False 1,492건
-    - ![img_68.png](img_68.png)
+    - ![img_68.png](img/img_68.png)
       - `AN` 영업용 테스트 False 562건
 
 
 
 - 버그리포트 이슈
   - 총 1,013건
-    - ![img_69.png](img_69.png)
+    - ![img_69.png](img/img_69.png)
       - 버그리포트 운영 Ver. 174 건
-    - ![img_70.png](img_70.png)
+    - ![img_70.png](img/img_70.png)
       - 버그리포트 통합 Ver. 839 건
 
 _버그 리포트에서는 신규 개발 요청 건도 존재_
@@ -3357,7 +3357,7 @@ _중복 이슈 건들도 존재_
 
 ### 이슈 중요도가 다르다.
 
-![img_71.png](img_71.png)
+![img_71.png](img/img_71.png)
 
 `KN` Project **이슈 중 생년월일 조회가 불편하다는 이슈**가 있었음,
 
@@ -3406,7 +3406,7 @@ _중복 이슈 건들도 존재_
 ## 피트 스탑, 우물 안 개구리
 
 
-![img_72.png](img_72.png)
+![img_72.png](img/img_72.png)
 
 **`피트스탑`은 레이싱 경기에서 사용하는 용어**임.
 
@@ -3417,7 +3417,7 @@ _중복 이슈 건들도 존재_
 
 **`우아한 형제들`에서는 아래 처럼 활용**한다고 함.
 
-![img_73.png](img_73.png)
+![img_73.png](img/img_73.png)
 
 <br>
 
@@ -3453,14 +3453,14 @@ _중복 이슈 건들도 존재_
 ### 우물 안 개구리
 
 
-![img_74.png](img_74.png)
+![img_74.png](img/img_74.png)
 
 
 **2년 8개월 전 개발 학원 지원 자소서에 썼던 첫 문장**은 이렇게 시작했음.
 
 > 저는 자바 개발자로 취업을 희망하는 우물 안 개구리입니다.
 
-![img_75.png](img_75.png)
+![img_75.png](img/img_75.png)
 
 그리고 **자소서 마지막 문장**은 이렇게 끝났음.
 
@@ -3469,7 +3469,7 @@ _중복 이슈 건들도 존재_
 <br>
 <br>
 
-![img_76.png](img_76.png)
+![img_76.png](img/img_76.png)
 
 내가 생각 했을 때 **우리는 앞으로도 항상 우물 안 개구리**임.
 
@@ -3479,7 +3479,7 @@ _중복 이슈 건들도 존재_
 
 **자신의 우물이 깊어질 뿐 결국 우물 안 개구리**임.
 
-![img_77.png](img_77.png)
+![img_77.png](img/img_77.png)
 
 _실력이 쌓이며 우물이 깊어진 개구리의 모습_
 
@@ -3491,7 +3491,7 @@ _실력이 쌓이며 우물이 깊어진 개구리의 모습_
 `피트스탑`은 **속해있는 우물을 깊게 파는걸 멈추고 잠깐 뛰어오르는 행위**임.
 
 
-![img_78.png](img_78.png)
+![img_78.png](img/img_78.png)
 
 <br>
 
