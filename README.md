@@ -1145,7 +1145,7 @@ public ResultObject<UserSession> loginTest(UserSession userSession, HttpServletR
 
 **문제**는 대고객 소스를 가지고 **영업용 프로젝트를 생성할 때도 이 코드가 사용되었다는 것**임.
 
-![img_29.png](img_29.png)
+![img_98.png](img_98.png)
 
 _RIP. for loginTest 22.03.22 ~ 22.06.29_
 
@@ -1304,7 +1304,7 @@ _흑흑 미안합니다 흑흑흑 🥲_
 
 대표적인 예시가 `KN` Project의 `C**P` 외부 연동이었음.
 
-![img_91.png](img_91.png)
+![img_99.png](img_99.png)
 
 <br>
 
