@@ -2476,6 +2476,19 @@ _한 API의 반환 값 중 FK 값을 가지고 또 다른 API를 호출하고 �
   , 대충 CarModel 정보
 }
 
+
+// 계층형 API 가 있었다면?
+/api/car/1/carModel
+{
+  "id": 1
+  , ...
+  , "carModel" : {
+    "id" : 14
+    , ...
+    , 대충 CarModel 정보
+  }
+}
+
 ```
 
 <br>
