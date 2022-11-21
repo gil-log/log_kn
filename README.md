@@ -453,7 +453,7 @@ _약어로된 테이블, 저게 뭔 테이블인데 이 씹덕아_
   - _아 ?? 님 차량 옵션 가격 필요하세요? A테이블 CBU_OPT_AMT 쓰시면 되요~_
   - VS
   - ![img_14.png](img/img_14.png) 
-  - _아 ?? 님 차량 옵션 가격 필요하세요? CarModelOption.carOptionPrice 되요~_
+  - _아 ?? 님 차량 옵션 가격 필요하세요? CarModelOption.carOptionPrice 쓰시면 되요~_
 
 
 - 추후 DB 연동 시 각 쿼리마다의 연동 문제 해결
