@@ -736,6 +736,10 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
 ```
 
 
+> Q) 빈값의 Builder는 그냥 new 생성자 NoAgrs 써도 되지 않을까? <br>
+> A) 맞는 의견 같음, 동의
+
+
 
 <br>
 
@@ -757,6 +761,9 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
                             .count(4)
                             .build();
 ```
+
+> Q) 또다른 Builder 유용성으로, 직접 Builder 구현 시, 같은 매개변수에 대해 다른 행위를 수행하게 할 수 있음
+
 
 <br>
 
