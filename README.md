@@ -497,6 +497,10 @@ _약어로된 테이블, 저게 뭔 테이블인데 이 씹덕아_
 
 이게 일명 `뚱뚱이`임
 
+> Q : 뚱뚱이와 MyBatis to JPA 부분의 논리가 순환 적이고, 해당 단락에서 논리가 잘 와닿지 않음 <br>
+> A : 뚱뚱이 구조가 MyBatis to JPA의 도입 이유가 되는 부분은 아님, 해당 단락에서는 단순 뚱뚱이 작업을 JPA가 소비시켜줄 수 있다는 얘기 뿐임.
+> 
+
 ---
 
 <br>
@@ -732,6 +736,10 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
 ```
 
 
+> Q) 빈값의 Builder는 그냥 new 생성자 NoAgrs 써도 되지 않을까? <br>
+> A) 맞는 의견 같음, 동의
+
+
 
 <br>
 
@@ -753,6 +761,9 @@ public OrderDTO someVariationBusinessLogicMethod(OrderDTO orderDTO) {
                             .count(4)
                             .build();
 ```
+
+> Q) 또다른 Builder 유용성으로, 직접 Builder 구현 시, 같은 매개변수에 대해 다른 행위를 수행하게 할 수 있음
+
 
 <br>
 
@@ -1271,6 +1282,8 @@ _Good Code가 시간이 지나고 보니 어느새 BadCode로 바뀌어 있을 �
 
 _엄격한 구글 번역을 거친 올바른 단어 선택 😏_
 
+
+> Q) Github discussion도 연계해서 해당 채널에서 사용해보면 유용할 것 같음.
 
 <br>
 
@@ -3425,6 +3438,9 @@ _중복 이슈 건들도 존재_
 
 **그게 소비자의 만족도를 올려줄 수 있음**.
 
+
+> Q) 우선순위를 맞추는 회의때문에 개발 할 수 있는  시간 자체가 줄어드는 딜레마가 있다.<br>
+> A) 결국 선택의 문제 같다. 잘 논의된 1개의 작업물이 논의되지 않은 10개의 작업물 보다 낫다라는 의견임.
 
 
 <br>
