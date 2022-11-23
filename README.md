@@ -1751,6 +1751,11 @@ _[출처 : https://www.sensedia.com](https://www.sensedia.com/post/apis-rest-gra
 **그것이 인싸 API** 임.
 
 
+> Q) 단순히 API 가이드 문서에 code없이 통일된 MESSAGE 값으로 반환 하는 것도 동일한 효과를 바꿀 수 있음. <br>
+> A) code 형태에서 쓰는 포매팅, 스페이스바, 특수문자 등을 제약 이나 바뀌지 않을 값이라면 동일 할 것 같음.
+
+
+
 <br>
 
 - [목차](#목차)
