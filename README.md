@@ -2616,7 +2616,17 @@ public List<LongRent> getLongRentDetail(LongRent longRent) {
 > End Point 줄이기 ,,,, (Request, Response, Entity를 한 객체로,,,)
 > Q) 개발자가 증가되고, API 소비처가 증강할 때 단점으로 잡을 수 있음,
 
+<br>
 
+
+> Q) 계층형 API가 늘어나 Endpoint, Depth가 길어지는 API가 늘어날 수록 <br>
+> 해당 API로 의존성이 몰리는, Super API로 변질될 경향이 커질 수 있는 것 아닌가? <br>
+> A) ㅇㅇ 그렇게 생각할 수도, 하지만 인기 있게 호출 된다 = super API는 꼭 아니라고 생각함.
+
+
+<br>
+
+> Q) 도메인 상바상이 중요하지 않나,
 
 
 <br>
