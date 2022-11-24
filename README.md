@@ -2612,6 +2612,10 @@ public List<LongRent> getLongRentDetail(LongRent longRent) {
 
 
 
+> Q) API와 화면, DB를 혼자 개발하는 상황에서 여러 유혹이 존재했었는데, 파라미터 줄이기, 중복객체, 요청 반환 객체 줄이기,<br>
+> End Point 줄이기 ,,,, (Request, Response, Entity를 한 객체로,,,)
+> Q) 개발자가 증가되고, API 소비처가 증강할 때 단점으로 잡을 수 있음,
+
 
 
 
